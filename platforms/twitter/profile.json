@@ -1,0 +1,198 @@
+{
+  "platform_id": "twitter",
+  "page_type_id": "profile",
+  "page_type_id": "profile",
+  "display_name": "User Profile",
+  "url_patterns": [
+    "/*"
+  ],
+  "root_selector": "main",
+  "content_schemas": [
+    {
+      "content_type": "profile",
+      "semantic_role": "card",
+      "container_selector": {
+        "primary": {
+          "type": "css",
+          "value": "[data-testid='UserProfileHeader_Items']"
+        },
+        "fallbacks": [
+          {
+            "type": "css",
+            "value": "div[data-testid='UserName']"
+          }
+        ],
+        "scope": "container"
+      },
+      "is_list": false,
+      "fields": [
+        {
+          "name": "name",
+          "field_type": "text",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "[data-testid='UserName'] span:first-child"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": "text",
+          "required": true,
+          "transform": "trim"
+        },
+        {
+          "name": "handle",
+          "field_type": "text",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "[data-testid='UserName'] div:nth-child(2) span"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": "text",
+          "pattern": "@[\\w]+",
+          "required": false,
+          "transform": "trim"
+        },
+        {
+          "name": "bio",
+          "field_type": "text",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "[data-testid='UserDescription']"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": "text",
+          "required": false,
+          "transform": "trim"
+        },
+        {
+          "name": "location",
+          "field_type": "text",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "[data-testid='UserProfileHeader_Items'] span[data-testid='UserLocation']"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": "text",
+          "required": false,
+          "transform": "trim"
+        },
+        {
+          "name": "website",
+          "field_type": "url",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "[data-testid='UserUrl'] a"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": {
+            "attribute": "href"
+          },
+          "required": false
+        },
+        {
+          "name": "followers_count",
+          "field_type": "number",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "a[href*='/verified_followers'] span:first-child, a[href*='/followers'] span:first-child"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": "text",
+          "default": 0,
+          "required": false,
+          "transform": "parse_compact_number"
+        },
+        {
+          "name": "following_count",
+          "field_type": "number",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "a[href*='/following'] span:first-child"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": "text",
+          "default": 0,
+          "required": false,
+          "transform": "parse_compact_number"
+        },
+        {
+          "name": "is_verified",
+          "field_type": "boolean",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "[data-testid='UserName'] svg[aria-label*='Verified']"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": "exists",
+          "default": false,
+          "required": false
+        }
+      ],
+      "actions": [
+        {
+          "action_type": "click",
+          "semantic_intent": "follow",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "[data-testid*='follow']"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "active_state": {
+            "selector": {
+              "primary": {
+                "type": "css",
+                "value": "[data-testid*='unfollow']"
+              },
+              "fallbacks": [],
+              "scope": "container"
+            },
+            "detection": {
+              "type": "exists"
+            }
+          },
+          "requires_confirmation": false,
+          "risk_level": 3
+        }
+      ],
+      "nested_content": [],
+      "required_fields": [
+        "name"
+      ]
+    }
+  ],
+  "page_actions": [],
+  "domains": [
+    "twitter.com",
+    "x.com",
+    "www.twitter.com",
+    "www.x.com"
+  ],
+  "cid": "bafk2687f24486862d874acc19d3a2686ab7cc0d4a51",
+  "version": "1.0.0"
+}

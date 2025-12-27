@@ -1,0 +1,85 @@
+{
+  "platform_id": "linkedin",
+  "page_type_id": "search",
+  "page_type_id": "search",
+  "display_name": "Search Results",
+  "url_patterns": [
+    "/search/*"
+  ],
+  "root_selector": "main",
+  "content_schemas": [
+    {
+      "content_type": "search_result",
+      "semantic_role": "list_item",
+      "container_selector": {
+        "primary": {
+          "type": "css",
+          "value": ".search-results-container li.reusable-search__result-container"
+        },
+        "fallbacks": [],
+        "scope": "container"
+      },
+      "is_list": true,
+      "fields": [
+        {
+          "name": "title",
+          "field_type": "text",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": ".entity-result__title-text"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": "text",
+          "required": true,
+          "transform": "trim"
+        },
+        {
+          "name": "subtitle",
+          "field_type": "text",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": ".entity-result__primary-subtitle"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": "text",
+          "required": false,
+          "transform": "trim"
+        },
+        {
+          "name": "url",
+          "field_type": "url",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "a.app-aware-link"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "extraction": {
+            "attribute": "href"
+          },
+          "required": false
+        }
+      ],
+      "actions": [],
+      "nested_content": [],
+      "required_fields": [
+        "title"
+      ]
+    }
+  ],
+  "page_actions": [],
+  "domains": [
+    "linkedin.com",
+    "www.linkedin.com"
+  ],
+  "cid": "bafk895355f61b829c6d31466091e6dcef2ad9e2a21b",
+  "version": "1.0.0"
+}

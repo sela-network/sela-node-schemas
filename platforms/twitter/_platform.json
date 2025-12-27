@@ -1,0 +1,777 @@
+{
+  "platform_id": "twitter",
+  "display_name": "Twitter / X",
+  "domains": [
+    "twitter.com",
+    "x.com",
+    "www.twitter.com",
+    "www.x.com"
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "name": "twitter Schema",
+    "description": "Semantic extraction schema for twitter",
+    "author": "Sela Network",
+    "created_at": 1766824151,
+    "updated_at": 1766824151,
+    "cid": "bafk2687f24486862d874acc19d3a2686ab7cc0d4a51",
+    "tags": []
+  },
+  "page_types": {
+    "search": {
+      "page_type_id": "search",
+      "display_name": "Search Results",
+      "url_patterns": [
+        "/search",
+        "/search?*"
+      ],
+      "root_selector": "main",
+      "content_schemas": [
+        {
+          "content_type": "tweet",
+          "semantic_role": "article",
+          "container_selector": {
+            "primary": {
+              "type": "css",
+              "value": "article[data-testid='tweet']"
+            },
+            "fallbacks": [
+              {
+                "type": "css",
+                "value": "div[data-testid='cellInnerDiv'] article"
+              }
+            ],
+            "scope": "container"
+          },
+          "is_list": true,
+          "fields": [
+            {
+              "name": "author_name",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='User-Name'] span:not([class*='r-'])"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "author_handle",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='User-Name'] a[href^='/'] span"
+                },
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "a[role='link'][href^='/'] span"
+                  }
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "pattern": "@[\\w]+",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "content",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='tweetText']"
+                },
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "div[lang]"
+                  }
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "timestamp",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "time"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": {
+                "attribute": "datetime"
+              },
+              "required": false
+            },
+            {
+              "name": "reply_count",
+              "field_type": "number",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='reply'] span"
+                },
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "div[aria-label*='repl'] span"
+                  }
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "default": 0,
+              "required": false,
+              "transform": "parse_compact_number"
+            },
+            {
+              "name": "retweet_count",
+              "field_type": "number",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='retweet'] span"
+                },
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "div[aria-label*='repost'] span"
+                  }
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "default": 0,
+              "required": false,
+              "transform": "parse_compact_number"
+            },
+            {
+              "name": "like_count",
+              "field_type": "number",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='like'] span"
+                },
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "div[aria-label*='like'] span"
+                  }
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "default": 0,
+              "required": false,
+              "transform": "parse_compact_number"
+            },
+            {
+              "name": "view_count",
+              "field_type": "number",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "a[href*='/analytics'] span"
+                },
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "div[aria-label*='view'] span"
+                  }
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "default": 0,
+              "required": false,
+              "transform": "parse_compact_number"
+            },
+            {
+              "name": "tweet_url",
+              "field_type": "url",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "a[href*='/status/']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": {
+                "attribute": "href"
+              },
+              "required": false
+            },
+            {
+              "name": "has_media",
+              "field_type": "boolean",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='tweetPhoto'], video"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "exists",
+              "default": false,
+              "required": false
+            },
+            {
+              "name": "is_retweet",
+              "field_type": "boolean",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "span[data-testid='socialContext']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "exists",
+              "default": false,
+              "required": false
+            }
+          ],
+          "actions": [
+            {
+              "action_type": "click",
+              "semantic_intent": "like",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='like']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "active_state": {
+                "selector": {
+                  "primary": {
+                    "type": "css",
+                    "value": "[data-testid='unlike']"
+                  },
+                  "fallbacks": [],
+                  "scope": "container"
+                },
+                "detection": {
+                  "type": "exists"
+                }
+              },
+              "requires_confirmation": false,
+              "risk_level": 2
+            },
+            {
+              "action_type": "click",
+              "semantic_intent": "retweet",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='retweet']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "active_state": {
+                "selector": {
+                  "primary": {
+                    "type": "css",
+                    "value": "[data-testid='unretweet']"
+                  },
+                  "fallbacks": [],
+                  "scope": "container"
+                },
+                "detection": {
+                  "type": "exists"
+                }
+              },
+              "requires_confirmation": true,
+              "risk_level": 4
+            },
+            {
+              "action_type": "click",
+              "semantic_intent": "reply",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='reply']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "requires_input": {
+                "input_selector": {
+                  "primary": {
+                    "type": "css",
+                    "value": "[data-testid='tweetTextarea_0']"
+                  },
+                  "fallbacks": [],
+                  "scope": "container"
+                },
+                "input_type": "text_area",
+                "placeholder": "Post your reply"
+              },
+              "requires_confirmation": false,
+              "risk_level": 5
+            },
+            {
+              "action_type": "click",
+              "semantic_intent": "bookmark",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='bookmark']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "active_state": {
+                "selector": {
+                  "primary": {
+                    "type": "css",
+                    "value": "[data-testid='removeBookmark']"
+                  },
+                  "fallbacks": [],
+                  "scope": "container"
+                },
+                "detection": {
+                  "type": "exists"
+                }
+              },
+              "requires_confirmation": false,
+              "risk_level": 1
+            }
+          ],
+          "nested_content": [],
+          "required_fields": []
+        }
+      ],
+      "page_actions": [
+        {
+          "action_type": "input",
+          "semantic_intent": "search",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "input[data-testid='SearchBox_Search_Input']"
+            },
+            "fallbacks": [
+              {
+                "type": "css",
+                "value": "input[aria-label='Search query']"
+              }
+            ],
+            "scope": "container"
+          },
+          "requires_input": {
+            "input_selector": {
+              "primary": {
+                "type": "css",
+                "value": "input[data-testid='SearchBox_Search_Input']"
+              },
+              "fallbacks": [],
+              "scope": "container"
+            },
+            "input_type": "search",
+            "placeholder": "Search"
+          },
+          "requires_confirmation": false,
+          "risk_level": 1
+        },
+        {
+          "action_type": "click",
+          "semantic_intent": "filter_latest",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "a[href*='f=live']"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "active_state": {
+            "selector": {
+              "primary": {
+                "type": "css",
+                "value": "a[href*='f=live']"
+              },
+              "fallbacks": [],
+              "scope": "container"
+            },
+            "detection": {
+              "type": "has_attribute",
+              "name": "aria-selected",
+              "value": "true"
+            }
+          },
+          "requires_confirmation": false,
+          "risk_level": 1
+        },
+        {
+          "action_type": "click",
+          "semantic_intent": "filter_people",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "a[href*='f=user']"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "requires_confirmation": false,
+          "risk_level": 1
+        },
+        {
+          "action_type": "click",
+          "semantic_intent": "filter_media",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "a[href*='f=image']"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "requires_confirmation": false,
+          "risk_level": 1
+        }
+      ],
+      "metadata_schema": {
+        "title": {
+          "primary": {
+            "type": "css",
+            "value": "title"
+          },
+          "fallbacks": [],
+          "scope": "container"
+        },
+        "description": {
+          "primary": {
+            "type": "css",
+            "value": "meta[name='description']"
+          },
+          "fallbacks": [],
+          "scope": "container"
+        },
+        "canonical_url": {
+          "primary": {
+            "type": "css",
+            "value": "link[rel='canonical']"
+          },
+          "fallbacks": [],
+          "scope": "container"
+        },
+        "custom": {}
+      }
+    },
+    "profile": {
+      "page_type_id": "profile",
+      "display_name": "User Profile",
+      "url_patterns": [
+        "/*"
+      ],
+      "root_selector": "main",
+      "content_schemas": [
+        {
+          "content_type": "profile",
+          "semantic_role": "card",
+          "container_selector": {
+            "primary": {
+              "type": "css",
+              "value": "[data-testid='UserProfileHeader_Items']"
+            },
+            "fallbacks": [
+              {
+                "type": "css",
+                "value": "div[data-testid='UserName']"
+              }
+            ],
+            "scope": "container"
+          },
+          "is_list": false,
+          "fields": [
+            {
+              "name": "name",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='UserName'] span:first-child"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true,
+              "transform": "trim"
+            },
+            {
+              "name": "handle",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='UserName'] div:nth-child(2) span"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "pattern": "@[\\w]+",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "bio",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='UserDescription']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "location",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='UserProfileHeader_Items'] span[data-testid='UserLocation']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "website",
+              "field_type": "url",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='UserUrl'] a"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": {
+                "attribute": "href"
+              },
+              "required": false
+            },
+            {
+              "name": "followers_count",
+              "field_type": "number",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "a[href*='/verified_followers'] span:first-child, a[href*='/followers'] span:first-child"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "default": 0,
+              "required": false,
+              "transform": "parse_compact_number"
+            },
+            {
+              "name": "following_count",
+              "field_type": "number",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "a[href*='/following'] span:first-child"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "default": 0,
+              "required": false,
+              "transform": "parse_compact_number"
+            },
+            {
+              "name": "is_verified",
+              "field_type": "boolean",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='UserName'] svg[aria-label*='Verified']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "exists",
+              "default": false,
+              "required": false
+            }
+          ],
+          "actions": [
+            {
+              "action_type": "click",
+              "semantic_intent": "follow",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid*='follow']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "active_state": {
+                "selector": {
+                  "primary": {
+                    "type": "css",
+                    "value": "[data-testid*='unfollow']"
+                  },
+                  "fallbacks": [],
+                  "scope": "container"
+                },
+                "detection": {
+                  "type": "exists"
+                }
+              },
+              "requires_confirmation": false,
+              "risk_level": 3
+            }
+          ],
+          "nested_content": [],
+          "required_fields": [
+            "name"
+          ]
+        }
+      ],
+      "page_actions": []
+    },
+    "timeline": {
+      "page_type_id": "timeline",
+      "display_name": "Home Timeline",
+      "url_patterns": [
+        "/home",
+        "/"
+      ],
+      "root_selector": "main",
+      "content_schemas": [
+        {
+          "content_type": "tweet",
+          "semantic_role": "article",
+          "container_selector": {
+            "primary": {
+              "type": "css",
+              "value": "article[data-testid='tweet']"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "is_list": true,
+          "fields": [
+            {
+              "name": "author_name",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='User-Name'] span:first-child"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "author_handle",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='User-Name'] a[href^='/']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": {
+                "attribute": "href"
+              },
+              "pattern": "/[\\w]+",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "content",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "[data-testid='tweetText']"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            }
+          ],
+          "actions": [],
+          "nested_content": [],
+          "required_fields": []
+        }
+      ],
+      "page_actions": [
+        {
+          "action_type": "input",
+          "semantic_intent": "compose",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "[data-testid='tweetTextarea_0']"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "requires_input": {
+            "input_selector": {
+              "primary": {
+                "type": "css",
+                "value": "[data-testid='tweetTextarea_0']"
+              },
+              "fallbacks": [],
+              "scope": "container"
+            },
+            "input_type": "rich_text",
+            "placeholder": "What is happening?!"
+          },
+          "requires_confirmation": true,
+          "risk_level": 6
+        }
+      ]
+    }
+  },
+  "default_page_type": "timeline"
+}

@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "updated_at": "1766824151",
+  "platforms": [
+    {
+      "platform_id": "twitter",
+      "display_name": "Twitter / X",
+      "domains": [
+        "twitter.com",
+        "x.com",
+        "www.twitter.com",
+        "www.x.com"
+      ],
+      "cid": "bafk2687f24486862d874acc19d3a2686ab7cc0d4a51",
+      "page_types": [
+        "search",
+        "profile",
+        "timeline"
+      ]
+    },
+    {
+      "platform_id": "linkedin",
+      "display_name": "LinkedIn",
+      "domains": [
+        "linkedin.com",
+        "www.linkedin.com"
+      ],
+      "cid": "bafk895355f61b829c6d31466091e6dcef2ad9e2a21b",
+      "page_types": [
+        "search",
+        "feed",
+        "profile"
+      ]
+    }
+  ]
+}

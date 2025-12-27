@@ -1,0 +1,569 @@
+{
+  "platform_id": "linkedin",
+  "display_name": "LinkedIn",
+  "domains": [
+    "linkedin.com",
+    "www.linkedin.com"
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "name": "linkedin Schema",
+    "description": "Semantic extraction schema for linkedin",
+    "author": "Sela Network",
+    "created_at": 1766824151,
+    "updated_at": 1766824151,
+    "cid": "bafk895355f61b829c6d31466091e6dcef2ad9e2a21b",
+    "tags": []
+  },
+  "page_types": {
+    "search": {
+      "page_type_id": "search",
+      "display_name": "Search Results",
+      "url_patterns": [
+        "/search/*"
+      ],
+      "root_selector": "main",
+      "content_schemas": [
+        {
+          "content_type": "search_result",
+          "semantic_role": "list_item",
+          "container_selector": {
+            "primary": {
+              "type": "css",
+              "value": ".search-results-container li.reusable-search__result-container"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "is_list": true,
+          "fields": [
+            {
+              "name": "title",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".entity-result__title-text"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true,
+              "transform": "trim"
+            },
+            {
+              "name": "subtitle",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".entity-result__primary-subtitle"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "url",
+              "field_type": "url",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "a.app-aware-link"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": {
+                "attribute": "href"
+              },
+              "required": false
+            }
+          ],
+          "actions": [],
+          "nested_content": [],
+          "required_fields": [
+            "title"
+          ]
+        }
+      ],
+      "page_actions": []
+    },
+    "feed": {
+      "page_type_id": "feed",
+      "display_name": "Home Feed",
+      "url_patterns": [
+        "/feed",
+        "/"
+      ],
+      "root_selector": "main",
+      "content_schemas": [
+        {
+          "content_type": "post",
+          "semantic_role": "article",
+          "container_selector": {
+            "primary": {
+              "type": "css",
+              "value": "[data-urn^='urn:li:activity']"
+            },
+            "fallbacks": [
+              {
+                "type": "css",
+                "value": ".feed-shared-update-v2"
+              }
+            ],
+            "scope": "container"
+          },
+          "is_list": true,
+          "fields": [
+            {
+              "name": "author_name",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".update-components-actor__name"
+                },
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": ".feed-shared-actor__name"
+                  }
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "author_headline",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".update-components-actor__description"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "content",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".feed-shared-update-v2__description"
+                },
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": ".update-components-text"
+                  }
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "reactions_count",
+              "field_type": "number",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".social-details-social-counts__reactions-count"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "default": 0,
+              "required": false,
+              "transform": "parse_compact_number"
+            },
+            {
+              "name": "comments_count",
+              "field_type": "number",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".social-details-social-counts__comments"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "default": 0,
+              "required": false,
+              "transform": "parse_compact_number"
+            },
+            {
+              "name": "timestamp",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".update-components-actor__sub-description time"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            }
+          ],
+          "actions": [
+            {
+              "action_type": "click",
+              "semantic_intent": "like",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "button.react-button"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "active_state": {
+                "selector": {
+                  "primary": {
+                    "type": "css",
+                    "value": "button.react-button"
+                  },
+                  "fallbacks": [],
+                  "scope": "container"
+                },
+                "detection": {
+                  "type": "has_class",
+                  "class": "react-button--active"
+                }
+              },
+              "requires_confirmation": false,
+              "risk_level": 2
+            },
+            {
+              "action_type": "click",
+              "semantic_intent": "comment",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "button.comment-button"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "requires_input": {
+                "input_selector": {
+                  "primary": {
+                    "type": "css",
+                    "value": ".comments-comment-box__text-editor"
+                  },
+                  "fallbacks": [],
+                  "scope": "container"
+                },
+                "input_type": "text_area",
+                "placeholder": "Add a comment..."
+              },
+              "requires_confirmation": false,
+              "risk_level": 4
+            },
+            {
+              "action_type": "click",
+              "semantic_intent": "repost",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "button.share-button"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "requires_confirmation": true,
+              "risk_level": 5
+            }
+          ],
+          "nested_content": [],
+          "required_fields": []
+        }
+      ],
+      "page_actions": [
+        {
+          "action_type": "input",
+          "semantic_intent": "post",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": ".share-box-feed-entry__top-bar button"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "requires_input": {
+            "input_selector": {
+              "primary": {
+                "type": "css",
+                "value": ".share-box-feed-entry__top-bar"
+              },
+              "fallbacks": [],
+              "scope": "container"
+            },
+            "input_type": "rich_text",
+            "placeholder": "Start a post..."
+          },
+          "requires_confirmation": true,
+          "risk_level": 6
+        },
+        {
+          "action_type": "input",
+          "semantic_intent": "search",
+          "selector": {
+            "primary": {
+              "type": "css",
+              "value": "input.search-global-typeahead__input"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "requires_input": {
+            "input_selector": {
+              "primary": {
+                "type": "css",
+                "value": "input.search-global-typeahead__input"
+              },
+              "fallbacks": [],
+              "scope": "container"
+            },
+            "input_type": "search",
+            "placeholder": "Search"
+          },
+          "requires_confirmation": false,
+          "risk_level": 1
+        }
+      ],
+      "metadata_schema": {
+        "title": {
+          "primary": {
+            "type": "css",
+            "value": "title"
+          },
+          "fallbacks": [],
+          "scope": "container"
+        },
+        "canonical_url": {
+          "primary": {
+            "type": "css",
+            "value": "link[rel='canonical']"
+          },
+          "fallbacks": [],
+          "scope": "container"
+        },
+        "custom": {}
+      }
+    },
+    "profile": {
+      "page_type_id": "profile",
+      "display_name": "User Profile",
+      "url_patterns": [
+        "/in/*"
+      ],
+      "root_selector": "main",
+      "content_schemas": [
+        {
+          "content_type": "profile",
+          "semantic_role": "card",
+          "container_selector": {
+            "primary": {
+              "type": "css",
+              "value": ".pv-top-card"
+            },
+            "fallbacks": [],
+            "scope": "container"
+          },
+          "is_list": false,
+          "fields": [
+            {
+              "name": "name",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "h1.text-heading-xlarge"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true,
+              "transform": "trim"
+            },
+            {
+              "name": "headline",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".text-body-medium.break-words"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "location",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".text-body-small.inline.t-black--light"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "transform": "trim"
+            },
+            {
+              "name": "connections",
+              "field_type": "text",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".pv-top-card--list-bullet li:first-child"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "profile_image",
+              "field_type": "image",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": ".pv-top-card-profile-picture__image"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": {
+                "attribute": "src"
+              },
+              "required": false
+            }
+          ],
+          "actions": [
+            {
+              "action_type": "click",
+              "semantic_intent": "follow",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "button.follow"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "active_state": {
+                "selector": {
+                  "primary": {
+                    "type": "css",
+                    "value": "button.follow"
+                  },
+                  "fallbacks": [],
+                  "scope": "container"
+                },
+                "detection": {
+                  "type": "contains_text",
+                  "text": "Following"
+                }
+              },
+              "requires_confirmation": false,
+              "risk_level": 3
+            },
+            {
+              "action_type": "click",
+              "semantic_intent": "connect",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "button[aria-label*='connect' i]"
+                },
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "button.connect"
+                  }
+                ],
+                "scope": "container"
+              },
+              "active_state": {
+                "selector": {
+                  "primary": {
+                    "type": "css",
+                    "value": "button.connect"
+                  },
+                  "fallbacks": [],
+                  "scope": "container"
+                },
+                "detection": {
+                  "type": "contains_text",
+                  "text": "Pending"
+                }
+              },
+              "requires_confirmation": true,
+              "risk_level": 4
+            },
+            {
+              "action_type": "click",
+              "semantic_intent": "message",
+              "selector": {
+                "primary": {
+                  "type": "css",
+                  "value": "button.message-anywhere-button"
+                },
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "requires_input": {
+                "input_selector": {
+                  "primary": {
+                    "type": "css",
+                    "value": ".msg-form__contenteditable"
+                  },
+                  "fallbacks": [],
+                  "scope": "container"
+                },
+                "input_type": "text_area",
+                "placeholder": "Write a message..."
+              },
+              "requires_confirmation": false,
+              "risk_level": 5
+            }
+          ],
+          "nested_content": [],
+          "required_fields": [
+            "name"
+          ]
+        }
+      ],
+      "page_actions": []
+    }
+  },
+  "default_page_type": "feed"
+}
