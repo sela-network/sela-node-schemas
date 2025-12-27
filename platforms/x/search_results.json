@@ -1,58 +1,189 @@
 {
-  "display_name": "X (formerly Twitter)",
+  "display_name": "X",
   "domains": [
-    "x.com"
+    "x.com",
+    "www.x.com"
   ],
   "page_type": {
     "content": {
       "actions": [
         {
+          "active_state": {
+            "aria": {
+              "attribute": "aria-pressed",
+              "value": "true"
+            },
+            "class": "liked"
+          },
           "intent": "like",
-          "selector": "div[data-testid='like']",
+          "risk_level": 2,
+          "selector": {
+            "fallbacks": [
+              "button.like-btn",
+              "[aria-label*='Like']"
+            ],
+            "primary": "[data-testid='like']"
+          },
           "type": "click"
         },
         {
-          "intent": "retweet",
-          "selector": "div[data-testid='retweet']",
+          "intent": "repost",
+          "requires_confirmation": true,
+          "risk_level": 5,
+          "selector": {
+            "fallbacks": [
+              "button.repost-btn",
+              "[aria-label*='Repost']"
+            ],
+            "primary": "[data-testid='retweet']"
+          },
           "type": "click"
         },
         {
-          "intent": "reply",
-          "selector": "div[data-testid='reply']",
+          "intent": "comment",
+          "risk_level": 4,
+          "selector": {
+            "fallbacks": [
+              "button.reply-btn"
+            ],
+            "primary": "[data-testid='reply']"
+          },
+          "type": "click"
+        },
+        {
+          "intent": "share",
+          "risk_level": 1,
+          "selector": {
+            "fallbacks": [
+              "button.share-btn"
+            ],
+            "primary": "[data-testid='share']"
+          },
           "type": "click"
         }
       ],
-      "container_selector": "article[data-testid='tweet']",
+      "container_selector": {
+        "fallbacks": [
+          "article[role='article']",
+          ".tweet[data-item-id]"
+        ],
+        "primary": "[data-testid='tweet']"
+      },
       "content_type": "post",
       "fields": [
         {
           "extraction": "text",
+          "field_type": "text",
           "name": "author_name",
-          "selector": "div[data-testid='User-Names'] span"
+          "selector": {
+            "fallbacks": [
+              ".author-name",
+              "[data-author]"
+            ],
+            "primary": "[data-testid='User-Name'] span"
+          }
         },
         {
           "extraction": "text",
+          "field_type": "text",
+          "name": "author_handle",
+          "selector": {
+            "fallbacks": [
+              ".handle",
+              "[data-handle]"
+            ],
+            "primary": "[data-testid='User-Handle']"
+          }
+        },
+        {
+          "extraction": "text",
+          "field_type": "text",
           "name": "content",
-          "selector": "div[data-testid='tweetText']"
+          "selector": {
+            "fallbacks": [
+              ".post-content",
+              "[data-content]",
+              "p"
+            ],
+            "primary": "[data-testid='tweetText']"
+          }
         },
         {
-          "attribute": "datetime",
-          "extraction": "attribute",
+          "extraction": {
+            "attribute": "datetime"
+          },
+          "field_type": "timestamp",
           "name": "timestamp",
-          "selector": "time"
+          "selector": {
+            "fallbacks": [
+              "[data-time]",
+              ".timestamp"
+            ],
+            "primary": "time[datetime]"
+          }
         },
         {
+          "default": 0,
           "extraction": "text",
+          "field_type": "number",
           "name": "like_count",
-          "selector": "div[data-testid='like'] span",
-          "transform": "parse_number"
+          "selector": {
+            "fallbacks": [
+              ".like-count",
+              "[data-likes]"
+            ],
+            "primary": "[data-testid='like'] span"
+          },
+          "transform": "parse_compact_number"
+        },
+        {
+          "default": 0,
+          "extraction": "text",
+          "field_type": "number",
+          "name": "repost_count",
+          "selector": {
+            "fallbacks": [
+              ".repost-count"
+            ],
+            "primary": "[data-testid='retweet'] span"
+          },
+          "transform": "parse_compact_number"
+        },
+        {
+          "extraction": {
+            "attribute": "src"
+          },
+          "field_type": "image",
+          "name": "profile_image",
+          "selector": {
+            "fallbacks": [
+              ".avatar img",
+              "img[alt*='profile']"
+            ],
+            "primary": "[data-testid='Tweet-User-Avatar'] img"
+          }
+        },
+        {
+          "extraction": {
+            "attribute": "href"
+          },
+          "field_type": "url",
+          "name": "post_url",
+          "selector": {
+            "fallbacks": [
+              "a.post-link",
+              "[data-permalink]"
+            ],
+            "primary": "a[href*='/status/']"
+          }
         }
       ],
-      "is_list": true
+      "is_list": true,
+      "semantic_role": "article"
     },
     "display_name": "Search Results",
     "page_type_id": "search_results",
-    "root_selector": "main",
+    "root_selector": null,
     "url_patterns": [
       "/search"
     ]
