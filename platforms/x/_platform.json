@@ -1,7 +1,11 @@
 {
-  "display_name": "X (formerly Twitter)",
+  "platform_id": "x",
+  "display_name": "X",
   "domains": [
-    "x.com"
+    "x.com",
+    "twitter.com",
+    "www.x.com",
+    "www.twitter.com"
   ],
   "metadata": {
     "author": "Sela Network",

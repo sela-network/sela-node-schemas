@@ -3,13 +3,13 @@
   "updated_at": "1766825259",
   "platforms": [
     {
-      "platform_id": "twitter",
-      "display_name": "Twitter / X",
+      "platform_id": "x",
+      "display_name": "X",
       "domains": [
-        "twitter.com",
         "x.com",
-        "www.twitter.com",
-        "www.x.com"
+        "twitter.com",
+        "www.x.com",
+        "www.twitter.com"
       ],
       "cid": "bafk76915372e84a963d2317e6b02dc4956333b51ad6",
       "page_types": [
