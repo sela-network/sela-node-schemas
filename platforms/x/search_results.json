@@ -1,0 +1,61 @@
+{
+  "display_name": "X (formerly Twitter)",
+  "domains": [
+    "x.com"
+  ],
+  "page_type": {
+    "content": {
+      "actions": [
+        {
+          "intent": "like",
+          "selector": "div[data-testid='like']",
+          "type": "click"
+        },
+        {
+          "intent": "retweet",
+          "selector": "div[data-testid='retweet']",
+          "type": "click"
+        },
+        {
+          "intent": "reply",
+          "selector": "div[data-testid='reply']",
+          "type": "click"
+        }
+      ],
+      "container_selector": "article[data-testid='tweet']",
+      "content_type": "post",
+      "fields": [
+        {
+          "extraction": "text",
+          "name": "author_name",
+          "selector": "div[data-testid='User-Names'] span"
+        },
+        {
+          "extraction": "text",
+          "name": "content",
+          "selector": "div[data-testid='tweetText']"
+        },
+        {
+          "attribute": "datetime",
+          "extraction": "attribute",
+          "name": "timestamp",
+          "selector": "time"
+        },
+        {
+          "extraction": "text",
+          "name": "like_count",
+          "selector": "div[data-testid='like'] span",
+          "transform": "parse_number"
+        }
+      ],
+      "is_list": true
+    },
+    "display_name": "Search Results",
+    "page_type_id": "search_results",
+    "root_selector": "main",
+    "url_patterns": [
+      "/search"
+    ]
+  },
+  "platform_id": "x"
+}

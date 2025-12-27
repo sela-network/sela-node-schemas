@@ -1,0 +1,60 @@
+{
+  "display_name": "LinkedIn",
+  "domains": [
+    "linkedin.com"
+  ],
+  "page_type": {
+    "content": {
+      "actions": [
+        {
+          "intent": "connect",
+          "selector": "button[aria-label='Connect']",
+          "type": "click"
+        },
+        {
+          "intent": "follow",
+          "selector": "button[aria-label='Follow']",
+          "type": "click"
+        },
+        {
+          "intent": "message",
+          "selector": "button[aria-label='Message']",
+          "type": "click"
+        }
+      ],
+      "container_selector": "div.search-result",
+      "content_type": "search_result",
+      "fields": [
+        {
+          "extraction": "text",
+          "name": "profile_name",
+          "selector": ".reusable-search__result-container .entity-result__title-text span[aria-hidden]"
+        },
+        {
+          "extraction": "text",
+          "name": "headline",
+          "selector": ".reusable-search__result-container .entity-result__primary-subtitle"
+        },
+        {
+          "extraction": "text",
+          "name": "location",
+          "selector": ".reusable-search__result-container .entity-result__secondary-subtitle"
+        },
+        {
+          "extraction": "text",
+          "name": "mutual_connections",
+          "selector": ".reusable-search__result-container .entity-result__simple-insight-text span",
+          "transform": "parse_number"
+        }
+      ],
+      "is_list": true
+    },
+    "display_name": "Search Results",
+    "page_type_id": "search_results",
+    "root_selector": "div.search-results-container",
+    "url_patterns": [
+      "/search/results/all/"
+    ]
+  },
+  "platform_id": "linkedin"
+}

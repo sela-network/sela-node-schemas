@@ -1,285 +1,73 @@
 {
-  "platform_id": "linkedin",
-  "page_type_id": "feed",
-  "page_type_id": "feed",
-  "display_name": "Home Feed",
-  "url_patterns": [
-    "/feed",
-    "/"
+  "display_name": "LinkedIn",
+  "domains": [
+    "linkedin.com"
   ],
-  "root_selector": "main",
-  "content_schemas": [
-    {
-      "content_type": "post",
-      "semantic_role": "article",
-      "container_selector": {
-        "primary": {
-          "type": "css",
-          "value": "[data-urn^='urn:li:activity']"
-        },
-        "fallbacks": [
-          {
-            "type": "css",
-            "value": ".feed-shared-update-v2"
-          }
-        ],
-        "scope": "container"
-      },
-      "is_list": true,
-      "fields": [
-        {
-          "name": "author_name",
-          "field_type": "text",
-          "selector": {
-            "primary": {
-              "type": "css",
-              "value": ".update-components-actor__name"
-            },
-            "fallbacks": [
-              {
-                "type": "css",
-                "value": ".feed-shared-actor__name"
-              }
-            ],
-            "scope": "container"
-          },
-          "extraction": "text",
-          "required": false,
-          "transform": "trim"
-        },
-        {
-          "name": "author_headline",
-          "field_type": "text",
-          "selector": {
-            "primary": {
-              "type": "css",
-              "value": ".update-components-actor__description"
-            },
-            "fallbacks": [],
-            "scope": "container"
-          },
-          "extraction": "text",
-          "required": false,
-          "transform": "trim"
-        },
-        {
-          "name": "content",
-          "field_type": "text",
-          "selector": {
-            "primary": {
-              "type": "css",
-              "value": ".feed-shared-update-v2__description"
-            },
-            "fallbacks": [
-              {
-                "type": "css",
-                "value": ".update-components-text"
-              }
-            ],
-            "scope": "container"
-          },
-          "extraction": "text",
-          "required": false,
-          "transform": "trim"
-        },
-        {
-          "name": "reactions_count",
-          "field_type": "number",
-          "selector": {
-            "primary": {
-              "type": "css",
-              "value": ".social-details-social-counts__reactions-count"
-            },
-            "fallbacks": [],
-            "scope": "container"
-          },
-          "extraction": "text",
-          "default": 0,
-          "required": false,
-          "transform": "parse_compact_number"
-        },
-        {
-          "name": "comments_count",
-          "field_type": "number",
-          "selector": {
-            "primary": {
-              "type": "css",
-              "value": ".social-details-social-counts__comments"
-            },
-            "fallbacks": [],
-            "scope": "container"
-          },
-          "extraction": "text",
-          "default": 0,
-          "required": false,
-          "transform": "parse_compact_number"
-        },
-        {
-          "name": "timestamp",
-          "field_type": "text",
-          "selector": {
-            "primary": {
-              "type": "css",
-              "value": ".update-components-actor__sub-description time"
-            },
-            "fallbacks": [],
-            "scope": "container"
-          },
-          "extraction": "text",
-          "required": false
-        }
-      ],
+  "page_type": {
+    "content": {
       "actions": [
         {
-          "action_type": "click",
-          "semantic_intent": "like",
-          "selector": {
-            "primary": {
-              "type": "css",
-              "value": "button.react-button"
-            },
-            "fallbacks": [],
-            "scope": "container"
-          },
-          "active_state": {
-            "selector": {
-              "primary": {
-                "type": "css",
-                "value": "button.react-button"
-              },
-              "fallbacks": [],
-              "scope": "container"
-            },
-            "detection": {
-              "type": "has_class",
-              "class": "react-button--active"
-            }
-          },
-          "requires_confirmation": false,
-          "risk_level": 2
+          "intent": "like",
+          "selector": "button[data-control-name='like_toggle']",
+          "type": "click"
         },
         {
-          "action_type": "click",
-          "semantic_intent": "comment",
-          "selector": {
-            "primary": {
-              "type": "css",
-              "value": "button.comment-button"
-            },
-            "fallbacks": [],
-            "scope": "container"
-          },
-          "requires_input": {
-            "input_selector": {
-              "primary": {
-                "type": "css",
-                "value": ".comments-comment-box__text-editor"
-              },
-              "fallbacks": [],
-              "scope": "container"
-            },
-            "input_type": "text_area",
-            "placeholder": "Add a comment..."
-          },
-          "requires_confirmation": false,
-          "risk_level": 4
+          "intent": "comment",
+          "selector": "button[data-control-name='comment_action']",
+          "type": "click"
         },
         {
-          "action_type": "click",
-          "semantic_intent": "repost",
-          "selector": {
-            "primary": {
-              "type": "css",
-              "value": "button.share-button"
-            },
-            "fallbacks": [],
-            "scope": "container"
-          },
-          "requires_confirmation": true,
-          "risk_level": 5
+          "intent": "share",
+          "selector": "button[data-control-name='share_dialog']",
+          "type": "click"
+        },
+        {
+          "intent": "send",
+          "selector": "button[data-control-name='send_share']",
+          "type": "click"
         }
       ],
-      "nested_content": [],
-      "required_fields": []
-    }
-  ],
-  "page_actions": [
-    {
-      "action_type": "input",
-      "semantic_intent": "post",
-      "selector": {
-        "primary": {
-          "type": "css",
-          "value": ".share-box-feed-entry__top-bar button"
+      "container_selector": "div.feed-shared-update-v2",
+      "content_type": "post",
+      "fields": [
+        {
+          "extraction": "text",
+          "name": "author_name",
+          "selector": "span.feed-shared-actor__name"
         },
-        "fallbacks": [],
-        "scope": "container"
-      },
-      "requires_input": {
-        "input_selector": {
-          "primary": {
-            "type": "css",
-            "value": ".share-box-feed-entry__top-bar"
-          },
-          "fallbacks": [],
-          "scope": "container"
+        {
+          "extraction": "text",
+          "name": "content",
+          "selector": ".feed-shared-update-v2__content"
         },
-        "input_type": "rich_text",
-        "placeholder": "Start a post..."
-      },
-      "requires_confirmation": true,
-      "risk_level": 6
+        {
+          "attribute": "datetime",
+          "extraction": "attribute",
+          "name": "timestamp",
+          "selector": "time"
+        },
+        {
+          "extraction": "text",
+          "name": "like_count",
+          "selector": "span.social-details-social-counts__reactions-count",
+          "transform": "parse_number"
+        },
+        {
+          "extraction": "text",
+          "name": "comment_count",
+          "selector": "span.social-details-social-counts__comments",
+          "transform": "parse_number"
+        }
+      ],
+      "is_list": true
     },
-    {
-      "action_type": "input",
-      "semantic_intent": "search",
-      "selector": {
-        "primary": {
-          "type": "css",
-          "value": "input.search-global-typeahead__input"
-        },
-        "fallbacks": [],
-        "scope": "container"
-      },
-      "requires_input": {
-        "input_selector": {
-          "primary": {
-            "type": "css",
-            "value": "input.search-global-typeahead__input"
-          },
-          "fallbacks": [],
-          "scope": "container"
-        },
-        "input_type": "search",
-        "placeholder": "Search"
-      },
-      "requires_confirmation": false,
-      "risk_level": 1
-    }
-  ],
-  "metadata_schema": {
-    "title": {
-      "primary": {
-        "type": "css",
-        "value": "title"
-      },
-      "fallbacks": [],
-      "scope": "container"
-    },
-    "canonical_url": {
-      "primary": {
-        "type": "css",
-        "value": "link[rel='canonical']"
-      },
-      "fallbacks": [],
-      "scope": "container"
-    },
-    "custom": {}
+    "display_name": "Main Feed",
+    "page_type_id": "feed",
+    "root_selector": "main",
+    "url_patterns": [
+      "/",
+      "/feed"
+    ]
   },
-  "domains": [
-    "linkedin.com",
-    "www.linkedin.com"
-  ],
-  "cid": "bafk895355f61b829c6d31466091e6dcef2ad9e2a21b",
-  "version": "1.0.0"
+  "platform_id": "linkedin"
 }

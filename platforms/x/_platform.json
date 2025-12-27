@@ -1,0 +1,150 @@
+{
+  "display_name": "X (formerly Twitter)",
+  "domains": [
+    "x.com"
+  ],
+  "metadata": {
+    "author": "Sela Network",
+    "cid": "bafk_x_v1",
+    "created_at": 1766836998,
+    "description": "Semantic extraction schema for x",
+    "name": "x Schema",
+    "tags": [],
+    "updated_at": 1766836998,
+    "version": "1.0.0"
+  },
+  "page_types": {
+    "search_results": {
+      "content_schemas": [
+        {
+          "actions": [
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 2,
+              "selector": {
+                "fallbacks": [],
+                "primary": {
+                  "type": "css",
+                  "value": "div[data-testid='like']"
+                },
+                "scope": "container"
+              },
+              "semantic_intent": "like"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 2,
+              "selector": {
+                "fallbacks": [],
+                "primary": {
+                  "type": "css",
+                  "value": "div[data-testid='retweet']"
+                },
+                "scope": "container"
+              },
+              "semantic_intent": "retweet"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 2,
+              "selector": {
+                "fallbacks": [],
+                "primary": {
+                  "type": "css",
+                  "value": "div[data-testid='reply']"
+                },
+                "scope": "container"
+              },
+              "semantic_intent": "reply"
+            }
+          ],
+          "container_selector": {
+            "fallbacks": [],
+            "primary": {
+              "type": "css",
+              "value": "article[data-testid='tweet']"
+            },
+            "scope": "container"
+          },
+          "content_type": "post",
+          "fields": [
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "author_name",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {
+                  "type": "css",
+                  "value": "div[data-testid='User-Names'] span"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "content",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {
+                  "type": "css",
+                  "value": "div[data-testid='tweetText']"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {
+                "attribute": "datetime"
+              },
+              "field_type": "datetime",
+              "name": "timestamp",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {
+                  "type": "css",
+                  "value": "time"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "number",
+              "name": "like_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {
+                  "type": "css",
+                  "value": "div[data-testid='like'] span"
+                },
+                "scope": "container"
+              },
+              "transform": "parse_number"
+            }
+          ],
+          "is_list": true,
+          "nested_content": [],
+          "required_fields": [],
+          "semantic_role": "article"
+        }
+      ],
+      "display_name": "Search Results",
+      "page_actions": [],
+      "page_type_id": "search_results",
+      "root_selector": "main",
+      "url_patterns": [
+        "/search"
+      ]
+    }
+  },
+  "platform_id": "x"
+}

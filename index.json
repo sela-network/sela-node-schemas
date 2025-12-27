@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "1766824151",
+  "updated_at": "1766825259",
   "platforms": [
     {
       "platform_id": "twitter",
@@ -11,10 +11,10 @@
         "www.twitter.com",
         "www.x.com"
       ],
-      "cid": "bafk2687f24486862d874acc19d3a2686ab7cc0d4a51",
+      "cid": "bafk76915372e84a963d2317e6b02dc4956333b51ad6",
       "page_types": [
-        "search",
         "profile",
+        "search",
         "timeline"
       ]
     },
@@ -25,11 +25,11 @@
         "linkedin.com",
         "www.linkedin.com"
       ],
-      "cid": "bafk895355f61b829c6d31466091e6dcef2ad9e2a21b",
+      "cid": "bafkb007eae827b1ec4f01563a532e8668b1a4533edb",
       "page_types": [
-        "search",
         "feed",
-        "profile"
+        "profile",
+        "search"
       ]
     }
   ]
