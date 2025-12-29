@@ -39,8 +39,7 @@
         "m.medium.com"
       ],
       "page_types": [
-        "search",
-        "search_results"
+        "search"
       ],
       "platform_id": "medium_com"
     }
