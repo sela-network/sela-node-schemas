@@ -12,10 +12,284 @@
     "description": "Semantic extraction schema for medium_com",
     "name": "medium_com Schema",
     "tags": [],
-    "updated_at": 1767007614,
+    "updated_at": 1767009224,
     "version": "1.0.0"
   },
   "page_types": {
+    "search": {
+      "content_schemas": [
+        {
+          "actions": [
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 2,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='like']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[data-testid*='like']"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "button[aria-label*='Like']"
+                },
+                "scope": "container"
+              },
+              "semantic_intent": "like"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 3,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='share']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[data-testid*='share']"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "button[aria-label*='Share']"
+                },
+                "scope": "container"
+              },
+              "semantic_intent": "share"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 4,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='comment']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='reply']"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "button[aria-label*='Comment']"
+                },
+                "scope": "container"
+              },
+              "semantic_intent": "comment"
+            }
+          ],
+          "container_selector": {
+            "fallbacks": [
+              {
+                "type": "css",
+                "value": "[role='article']"
+              },
+              {
+                "type": "css",
+                "value": "article"
+              },
+              {
+                "type": "css",
+                "value": "[data-urn]"
+              }
+            ],
+            "primary": {
+              "type": "css",
+              "value": "[data-testid='result-item']"
+            },
+            "scope": "container"
+          },
+          "content_type": "post",
+          "fields": [
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "title",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "a span[aria-hidden='true']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "span[dir='ltr']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "a[href] span"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "h2[aria-hidden='true']"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {
+                "attribute": "href"
+              },
+              "field_type": "url",
+              "name": "link",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "a[href*='/profile/']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "a[href]"
+                  },
+                  {
+                    "type": "css",
+                    "value": "a:first-of-type"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "a[data-testid='link']"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "subtitle",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-hidden='true']:nth-of-type(2)"
+                  },
+                  {
+                    "type": "css",
+                    "value": "p span[dir='ltr']"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "p[aria-hidden='true']"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {
+                "attribute": "src"
+              },
+              "field_type": "image",
+              "name": "image",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "img[class*='Avatar']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "img[class*='Entity']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "img"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "img[class*='Photo']"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {
+                "attribute": "datetime"
+              },
+              "field_type": "timestamp",
+              "name": "timestamp",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[data-time]"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[datetime]"
+                  },
+                  {
+                    "type": "css",
+                    "value": "time"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "time[datetime]"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "default": 0,
+              "extraction": "text",
+              "field_type": "number",
+              "name": "engagement_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='like'] span"
+                  },
+                  {
+                    "type": "css",
+                    "value": "button span"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "[aria-label*='reaction'] span"
+                },
+                "scope": "container"
+              },
+              "transform": "parse_compact_number"
+            }
+          ],
+          "is_list": true,
+          "nested_content": [],
+          "required_fields": [],
+          "semantic_role": "article"
+        }
+      ],
+      "display_name": "Search Results",
+      "page_actions": [],
+      "page_type_id": "search",
+      "root_selector": null,
+      "url_patterns": [
+        "/search"
+      ]
+    },
     "search_results": {
       "content_schemas": [
         {

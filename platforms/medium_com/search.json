@@ -1,0 +1,154 @@
+{
+  "display_name": "Medium",
+  "domains": [
+    "medium.com",
+    "www.medium.com",
+    "m.medium.com"
+  ],
+  "page_type": {
+    "content": {
+      "actions": [
+        {
+          "intent": "like",
+          "risk_level": 2,
+          "selector": {
+            "fallbacks": [
+              "[aria-label*='like']",
+              "[data-testid*='like']"
+            ],
+            "primary": "button[aria-label*='Like']"
+          },
+          "type": "click"
+        },
+        {
+          "intent": "share",
+          "risk_level": 3,
+          "selector": {
+            "fallbacks": [
+              "[aria-label*='share']",
+              "[data-testid*='share']"
+            ],
+            "primary": "button[aria-label*='Share']"
+          },
+          "type": "click"
+        },
+        {
+          "intent": "comment",
+          "risk_level": 4,
+          "selector": {
+            "fallbacks": [
+              "[aria-label*='comment']",
+              "[aria-label*='reply']"
+            ],
+            "primary": "button[aria-label*='Comment']"
+          },
+          "type": "click"
+        }
+      ],
+      "container_selector": {
+        "fallbacks": [
+          "[role='article']",
+          "article",
+          "[data-urn]"
+        ],
+        "primary": "[data-testid='result-item']"
+      },
+      "content_type": "post",
+      "fields": [
+        {
+          "extraction": "text",
+          "field_type": "text",
+          "name": "title",
+          "selector": {
+            "fallbacks": [
+              "a span[aria-hidden='true']",
+              "span[dir='ltr']",
+              "a[href] span"
+            ],
+            "primary": "h2[aria-hidden='true']"
+          }
+        },
+        {
+          "extraction": {
+            "attribute": "href"
+          },
+          "field_type": "url",
+          "name": "link",
+          "selector": {
+            "fallbacks": [
+              "a[href*='/profile/']",
+              "a[href]",
+              "a:first-of-type"
+            ],
+            "primary": "a[data-testid='link']"
+          }
+        },
+        {
+          "extraction": "text",
+          "field_type": "text",
+          "name": "subtitle",
+          "selector": {
+            "fallbacks": [
+              "[aria-hidden='true']:nth-of-type(2)",
+              "p span[dir='ltr']"
+            ],
+            "primary": "p[aria-hidden='true']"
+          }
+        },
+        {
+          "extraction": {
+            "attribute": "src"
+          },
+          "field_type": "image",
+          "name": "image",
+          "selector": {
+            "fallbacks": [
+              "img[class*='Avatar']",
+              "img[class*='Entity']",
+              "img"
+            ],
+            "primary": "img[class*='Photo']"
+          }
+        },
+        {
+          "extraction": {
+            "attribute": "datetime"
+          },
+          "field_type": "timestamp",
+          "name": "timestamp",
+          "selector": {
+            "fallbacks": [
+              "[data-time]",
+              "[datetime]",
+              "time"
+            ],
+            "primary": "time[datetime]"
+          }
+        },
+        {
+          "default": 0,
+          "extraction": "text",
+          "field_type": "number",
+          "name": "engagement_count",
+          "selector": {
+            "fallbacks": [
+              "[aria-label*='like'] span",
+              "button span"
+            ],
+            "primary": "[aria-label*='reaction'] span"
+          },
+          "transform": "parse_compact_number"
+        }
+      ],
+      "is_list": true,
+      "semantic_role": "article"
+    },
+    "display_name": "Search Results",
+    "page_type_id": "search",
+    "root_selector": null,
+    "url_patterns": [
+      "/search"
+    ]
+  },
+  "platform_id": "medium_com"
+}
