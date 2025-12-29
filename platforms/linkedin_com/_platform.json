@@ -677,7 +677,7 @@
                 },
                 "scope": "container"
               },
-              "transform": "parse_number"
+              "transform": "parse_int"
             }
           ],
           "is_list": true,
