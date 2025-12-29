@@ -39,11 +39,12 @@
         "m.medium.com"
       ],
       "page_types": [
-        "search"
+        "search",
+        "search_results"
       ],
       "platform_id": "medium_com"
     }
   ],
-  "updated_at": "1767009595",
+  "updated_at": "1767011168",
   "version": "1.0.0"
 }
