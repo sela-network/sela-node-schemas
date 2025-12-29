@@ -1,8 +1,9 @@
 {
-  "display_name": "LinkedIn",
+  "display_name": "X Platform",
   "domains": [
-    "linkedin.com",
-    "www.linkedin.com"
+    "x.com",
+    "www.x.com",
+    "m.x.com"
   ],
   "page_type": {
     "content": {
@@ -36,7 +37,6 @@
           "risk_level": 4,
           "selector": {
             "fallbacks": [
-              "[aria-label*='comment']",
               "[aria-label*='reply']"
             ],
             "primary": "button[aria-label*='Comment']"
@@ -46,12 +46,13 @@
       ],
       "container_selector": {
         "fallbacks": [
-          "div[data-urn]",
-          "article[role='article']"
+          "[role='article']",
+          "[role='listitem']",
+          "[data-urn]"
         ],
-        "primary": "[role='listitem']"
+        "primary": "[data-testid='post']"
       },
-      "content_type": "result_item",
+      "content_type": "post",
       "fields": [
         {
           "extraction": "text",
@@ -59,10 +60,11 @@
           "name": "title",
           "selector": {
             "fallbacks": [
-              "h3 a",
-              "div[role='heading'] a"
+              "h2",
+              "h3",
+              "a[href*='/status'] span"
             ],
-            "primary": "a span[aria-hidden='true']"
+            "primary": "[role='heading']"
           }
         },
         {
@@ -73,10 +75,10 @@
           "name": "link",
           "selector": {
             "fallbacks": [
-              "a[href*='/in/']",
-              "a[href*='/profile/']"
+              "a[href*='/status']",
+              "a[href]:first-of-type"
             ],
-            "primary": "a[data-test-app-aware-link]"
+            "primary": "h2 a, h3 a"
           }
         },
         {
@@ -85,10 +87,10 @@
           "name": "subtitle",
           "selector": {
             "fallbacks": [
-              "[aria-hidden='true']:nth-of-type(2)",
-              "p span[dir='ltr']"
+              "p",
+              "[data-testid='description']"
             ],
-            "primary": "div:nth-of-type(2) span[dir='ltr']"
+            "primary": "[class*='description']"
           }
         },
         {
@@ -99,11 +101,11 @@
           "name": "image",
           "selector": {
             "fallbacks": [
-              "img[class*='Avatar']",
-              "img[class*='Entity']",
+              "picture img",
+              "img[width]",
               "img"
             ],
-            "primary": "img[class*='Photo']"
+            "primary": "img:not([class*='avatar']):not([class*='Avatar'])"
           }
         },
         {
@@ -128,23 +130,24 @@
           "name": "engagement_count",
           "selector": {
             "fallbacks": [
-              "[aria-label*='like'] span",
-              "button span"
+              "button[aria-label*='like'] span",
+              "[data-testid*='like'] span"
             ],
-            "primary": "[aria-label*='reaction'] span"
+            "primary": "[aria-label*='reactions'] span"
           },
           "transform": "parse_compact_number"
         }
       ],
       "is_list": true,
-      "semantic_role": "listitem"
+      "semantic_role": "article"
     },
-    "display_name": "Search Results",
-    "page_type_id": "search_results",
+    "display_name": "Search Feed",
+    "page_type_id": "search_feed",
     "root_selector": null,
     "url_patterns": [
-      "/search/results/all/"
+      "/search",
+      "/search*"
     ]
   },
-  "platform_id": "linkedin_com"
+  "platform_id": "x_com"
 }

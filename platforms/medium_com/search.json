@@ -47,13 +47,13 @@
       ],
       "container_selector": {
         "fallbacks": [
-          "[role='article']",
           "article",
-          "[data-urn]"
+          "[data-urn]",
+          "[role='listitem']"
         ],
-        "primary": "[data-testid='result-item']"
+        "primary": "[role='article']"
       },
-      "content_type": "post",
+      "content_type": "article",
       "fields": [
         {
           "extraction": "text",
@@ -61,11 +61,12 @@
           "name": "title",
           "selector": {
             "fallbacks": [
-              "a span[aria-hidden='true']",
-              "span[dir='ltr']",
-              "a[href] span"
+              "h3",
+              "[role='heading']",
+              "a[href*='/post'] span",
+              "a[href*='/article'] span"
             ],
-            "primary": "h2[aria-hidden='true']"
+            "primary": "h2"
           }
         },
         {
@@ -76,11 +77,12 @@
           "name": "link",
           "selector": {
             "fallbacks": [
-              "a[href*='/profile/']",
-              "a[href]",
-              "a:first-of-type"
+              "h3 a",
+              "a[href*='/post']",
+              "a[href*='/article']",
+              "a[href]:first-of-type"
             ],
-            "primary": "a[data-testid='link']"
+            "primary": "h2 a"
           }
         },
         {
@@ -89,10 +91,11 @@
           "name": "subtitle",
           "selector": {
             "fallbacks": [
-              "[aria-hidden='true']:nth-of-type(2)",
-              "p span[dir='ltr']"
+              "h3",
+              "[class*='excerpt']",
+              "[class*='description']"
             ],
-            "primary": "p[aria-hidden='true']"
+            "primary": "p"
           }
         },
         {
@@ -103,11 +106,11 @@
           "name": "image",
           "selector": {
             "fallbacks": [
-              "img[class*='Avatar']",
-              "img[class*='Entity']",
+              "picture img",
+              "img[width]",
               "img"
             ],
-            "primary": "img[class*='Photo']"
+            "primary": "img:not([class*='avatar']):not([class*='Avatar'])"
           }
         },
         {
@@ -144,11 +147,11 @@
       "semantic_role": "article"
     },
     "display_name": "Search Results",
-    "page_type_id": "search",
+    "page_type_id": "search_results",
     "root_selector": null,
     "url_patterns": [
       "/search"
     ]
   },
-  "platform_id": "medium_com"
+  "platform_id": "medium"
 }

@@ -1,570 +1,22 @@
 {
-  "default_page_type": "feed",
   "display_name": "LinkedIn",
   "domains": [
     "linkedin.com",
-    "www.linkedin.com"
+    "www.linkedin.com",
+    "m.linkedin.com"
   ],
   "metadata": {
     "author": "Sela Network",
-    "cid": "bafkb007eae827b1ec4f01563a532e8668b1a4533edb",
-    "created_at": 1766825259,
-    "description": "Semantic extraction schema for linkedin",
-    "name": "linkedin Schema",
+    "cid": "bafk_linkedin_com_v1",
+    "created_at": 1767013405,
+    "description": "Semantic extraction schema for linkedin_com",
+    "name": "linkedin_com Schema",
     "tags": [],
-    "updated_at": 1767006181,
+    "updated_at": 1767015544,
     "version": "1.0.0"
   },
   "page_types": {
-    "feed": {
-      "content_schemas": [
-        {
-          "actions": [
-            {
-              "action_type": "click",
-              "active_state": {
-                "detection": {
-                  "class": "react-button--active",
-                  "type": "has_class"
-                },
-                "selector": {
-                  "fallbacks": [],
-                  "primary": {
-                    "type": "css",
-                    "value": "button.react-button"
-                  },
-                  "scope": "container"
-                }
-              },
-              "requires_confirmation": false,
-              "risk_level": 2,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": "button.react-button"
-                },
-                "scope": "container"
-              },
-              "semantic_intent": "like"
-            },
-            {
-              "action_type": "click",
-              "requires_confirmation": false,
-              "requires_input": {
-                "input_selector": {
-                  "fallbacks": [],
-                  "primary": {
-                    "type": "css",
-                    "value": ".comments-comment-box__text-editor"
-                  },
-                  "scope": "container"
-                },
-                "input_type": "text_area",
-                "placeholder": "Add a comment..."
-              },
-              "risk_level": 4,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": "button.comment-button"
-                },
-                "scope": "container"
-              },
-              "semantic_intent": "comment"
-            },
-            {
-              "action_type": "click",
-              "requires_confirmation": true,
-              "risk_level": 5,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": "button.share-button"
-                },
-                "scope": "container"
-              },
-              "semantic_intent": "repost"
-            }
-          ],
-          "container_selector": {
-            "fallbacks": [
-              {
-                "type": "css",
-                "value": ".feed-shared-update-v2"
-              }
-            ],
-            "primary": {
-              "type": "css",
-              "value": "[data-urn^='urn:li:activity']"
-            },
-            "scope": "container"
-          },
-          "content_type": "post",
-          "fields": [
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "author_name",
-              "required": false,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": ".feed-shared-actor__name"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": ".update-components-actor__name"
-                },
-                "scope": "container"
-              },
-              "transform": "trim"
-            },
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "author_headline",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".update-components-actor__description"
-                },
-                "scope": "container"
-              },
-              "transform": "trim"
-            },
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "content",
-              "required": false,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": ".update-components-text"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": ".feed-shared-update-v2__description"
-                },
-                "scope": "container"
-              },
-              "transform": "trim"
-            },
-            {
-              "default": 0,
-              "extraction": "text",
-              "field_type": "number",
-              "name": "reactions_count",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".social-details-social-counts__reactions-count"
-                },
-                "scope": "container"
-              },
-              "transform": "parse_compact_number"
-            },
-            {
-              "default": 0,
-              "extraction": "text",
-              "field_type": "number",
-              "name": "comments_count",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".social-details-social-counts__comments"
-                },
-                "scope": "container"
-              },
-              "transform": "parse_compact_number"
-            },
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "timestamp",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".update-components-actor__sub-description time"
-                },
-                "scope": "container"
-              }
-            }
-          ],
-          "is_list": true,
-          "nested_content": [],
-          "required_fields": [],
-          "semantic_role": "article"
-        }
-      ],
-      "display_name": "Home Feed",
-      "metadata_schema": {
-        "canonical_url": {
-          "fallbacks": [],
-          "primary": {
-            "type": "css",
-            "value": "link[rel='canonical']"
-          },
-          "scope": "container"
-        },
-        "custom": {},
-        "title": {
-          "fallbacks": [],
-          "primary": {
-            "type": "css",
-            "value": "title"
-          },
-          "scope": "container"
-        }
-      },
-      "page_actions": [
-        {
-          "action_type": "input",
-          "requires_confirmation": true,
-          "requires_input": {
-            "input_selector": {
-              "fallbacks": [],
-              "primary": {
-                "type": "css",
-                "value": ".share-box-feed-entry__top-bar"
-              },
-              "scope": "container"
-            },
-            "input_type": "rich_text",
-            "placeholder": "Start a post..."
-          },
-          "risk_level": 6,
-          "selector": {
-            "fallbacks": [],
-            "primary": {
-              "type": "css",
-              "value": ".share-box-feed-entry__top-bar button"
-            },
-            "scope": "container"
-          },
-          "semantic_intent": "post"
-        },
-        {
-          "action_type": "input",
-          "requires_confirmation": false,
-          "requires_input": {
-            "input_selector": {
-              "fallbacks": [],
-              "primary": {
-                "type": "css",
-                "value": "input.search-global-typeahead__input"
-              },
-              "scope": "container"
-            },
-            "input_type": "search",
-            "placeholder": "Search"
-          },
-          "risk_level": 1,
-          "selector": {
-            "fallbacks": [],
-            "primary": {
-              "type": "css",
-              "value": "input.search-global-typeahead__input"
-            },
-            "scope": "container"
-          },
-          "semantic_intent": "search"
-        }
-      ],
-      "page_type_id": "feed",
-      "root_selector": "main",
-      "url_patterns": [
-        "/feed",
-        "/"
-      ]
-    },
-    "profile": {
-      "content_schemas": [
-        {
-          "actions": [
-            {
-              "action_type": "click",
-              "active_state": {
-                "detection": {
-                  "text": "Following",
-                  "type": "contains_text"
-                },
-                "selector": {
-                  "fallbacks": [],
-                  "primary": {
-                    "type": "css",
-                    "value": "button.follow"
-                  },
-                  "scope": "container"
-                }
-              },
-              "requires_confirmation": false,
-              "risk_level": 3,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": "button.follow"
-                },
-                "scope": "container"
-              },
-              "semantic_intent": "follow"
-            },
-            {
-              "action_type": "click",
-              "active_state": {
-                "detection": {
-                  "text": "Pending",
-                  "type": "contains_text"
-                },
-                "selector": {
-                  "fallbacks": [],
-                  "primary": {
-                    "type": "css",
-                    "value": "button.connect"
-                  },
-                  "scope": "container"
-                }
-              },
-              "requires_confirmation": true,
-              "risk_level": 4,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "button.connect"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "button[aria-label*='connect' i]"
-                },
-                "scope": "container"
-              },
-              "semantic_intent": "connect"
-            },
-            {
-              "action_type": "click",
-              "requires_confirmation": false,
-              "requires_input": {
-                "input_selector": {
-                  "fallbacks": [],
-                  "primary": {
-                    "type": "css",
-                    "value": ".msg-form__contenteditable"
-                  },
-                  "scope": "container"
-                },
-                "input_type": "text_area",
-                "placeholder": "Write a message..."
-              },
-              "risk_level": 5,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": "button.message-anywhere-button"
-                },
-                "scope": "container"
-              },
-              "semantic_intent": "message"
-            }
-          ],
-          "container_selector": {
-            "fallbacks": [],
-            "primary": {
-              "type": "css",
-              "value": ".pv-top-card"
-            },
-            "scope": "container"
-          },
-          "content_type": "profile",
-          "fields": [
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "name",
-              "required": true,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": "h1.text-heading-xlarge"
-                },
-                "scope": "container"
-              },
-              "transform": "trim"
-            },
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "headline",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".text-body-medium.break-words"
-                },
-                "scope": "container"
-              },
-              "transform": "trim"
-            },
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "location",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".text-body-small.inline.t-black--light"
-                },
-                "scope": "container"
-              },
-              "transform": "trim"
-            },
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "connections",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".pv-top-card--list-bullet li:first-child"
-                },
-                "scope": "container"
-              }
-            },
-            {
-              "extraction": {
-                "attribute": "src"
-              },
-              "field_type": "image",
-              "name": "profile_image",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".pv-top-card-profile-picture__image"
-                },
-                "scope": "container"
-              }
-            }
-          ],
-          "is_list": false,
-          "nested_content": [],
-          "required_fields": [
-            "name"
-          ],
-          "semantic_role": "card"
-        }
-      ],
-      "display_name": "User Profile",
-      "page_actions": [],
-      "page_type_id": "profile",
-      "root_selector": "main",
-      "url_patterns": [
-        "/in/*"
-      ]
-    },
     "search": {
-      "content_schemas": [
-        {
-          "actions": [],
-          "container_selector": {
-            "fallbacks": [],
-            "primary": {
-              "type": "css",
-              "value": ".search-results-container li.reusable-search__result-container"
-            },
-            "scope": "container"
-          },
-          "content_type": "search_result",
-          "fields": [
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "title",
-              "required": true,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".entity-result__title-text"
-                },
-                "scope": "container"
-              },
-              "transform": "trim"
-            },
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "subtitle",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".entity-result__primary-subtitle"
-                },
-                "scope": "container"
-              },
-              "transform": "trim"
-            },
-            {
-              "extraction": {
-                "attribute": "href"
-              },
-              "field_type": "url",
-              "name": "url",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": "a.app-aware-link"
-                },
-                "scope": "container"
-              }
-            }
-          ],
-          "is_list": true,
-          "nested_content": [],
-          "required_fields": [
-            "title"
-          ],
-          "semantic_role": "list_item"
-        }
-      ],
-      "display_name": "Search Results",
-      "page_actions": [],
-      "page_type_id": "search",
-      "root_selector": "main",
-      "url_patterns": [
-        "/search/*"
-      ]
-    },
-    "search_results": {
       "content_schemas": [
         {
           "actions": [
@@ -642,20 +94,24 @@
             "fallbacks": [
               {
                 "type": "css",
-                "value": "div[data-urn]"
+                "value": "article[role='article']"
               },
               {
                 "type": "css",
-                "value": "article[role='article']"
+                "value": "[role='listitem']"
+              },
+              {
+                "type": "css",
+                "value": "[data-urn]"
               }
             ],
             "primary": {
               "type": "css",
-              "value": "[role='listitem']"
+              "value": "[data-view-name='content-item']"
             },
             "scope": "container"
           },
-          "content_type": "result_item",
+          "content_type": "post",
           "fields": [
             {
               "extraction": "text",
@@ -666,16 +122,20 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "h3 a"
+                    "value": "h2"
                   },
                   {
                     "type": "css",
-                    "value": "div[role='heading'] a"
+                    "value": "[role='heading']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "a[href*='/post'] span"
                   }
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "a span[aria-hidden='true']"
+                  "value": "h3"
                 },
                 "scope": "container"
               }
@@ -691,16 +151,20 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "a[href*='/in/']"
+                    "value": "[role='heading'] a"
                   },
                   {
                     "type": "css",
-                    "value": "a[href*='/profile/']"
+                    "value": "[href*='/post']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[href*='/in/']"
                   }
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "a[data-test-app-aware-link]"
+                  "value": "h3 a"
                 },
                 "scope": "container"
               }
@@ -714,16 +178,20 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "[aria-hidden='true']:nth-of-type(2)"
+                    "value": "h4"
                   },
                   {
                     "type": "css",
-                    "value": "p span[dir='ltr']"
+                    "value": "[class*='description']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[class*='preview']"
                   }
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "div:nth-of-type(2) span[dir='ltr']"
+                  "value": "p"
                 },
                 "scope": "container"
               }
@@ -739,20 +207,20 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "img[class*='Avatar']"
+                    "value": "picture img"
                   },
                   {
                     "type": "css",
-                    "value": "img[class*='Entity']"
+                    "value": "img[width]"
                   },
                   {
                     "type": "css",
-                    "value": "img"
+                    "value": "img[height]"
                   }
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "img[class*='Photo']"
+                  "value": "img:not([class*='avatar']):not([class*='Avatar'])"
                 },
                 "scope": "container"
               }
@@ -815,15 +283,15 @@
           "is_list": true,
           "nested_content": [],
           "required_fields": [],
-          "semantic_role": "listitem"
+          "semantic_role": "article"
         }
       ],
       "display_name": "Search Results",
       "page_actions": [],
-      "page_type_id": "search_results",
-      "root_selector": null,
+      "page_type_id": "search",
+      "root_selector": "[role='search']",
       "url_patterns": [
-        "/search/results/all/"
+        "/search"
       ]
     }
   },

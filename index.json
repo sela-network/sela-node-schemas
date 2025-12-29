@@ -1,31 +1,27 @@
 {
   "platforms": [
     {
-      "cid": "bafk76915372e84a963d2317e6b02dc4956333b51ad6",
-      "display_name": "X",
+      "cid": "bafk_x_com_v1",
+      "display_name": "X Platform",
       "domains": [
         "x.com",
-        "twitter.com",
         "www.x.com",
-        "www.twitter.com"
+        "m.x.com"
       ],
       "page_types": [
-        "profile",
-        "search",
-        "timeline"
+        "search"
       ],
       "platform_id": "x_com"
     },
     {
-      "cid": "bafkb007eae827b1ec4f01563a532e8668b1a4533edb",
+      "cid": "bafk_linkedin_com_v1",
       "display_name": "LinkedIn",
       "domains": [
         "linkedin.com",
-        "www.linkedin.com"
+        "www.linkedin.com",
+        "m.linkedin.com"
       ],
       "page_types": [
-        "feed",
-        "profile",
         "search"
       ],
       "platform_id": "linkedin_com"
@@ -39,12 +35,11 @@
         "m.medium.com"
       ],
       "page_types": [
-        "search",
-        "search_results"
+        "search"
       ],
       "platform_id": "medium_com"
     }
   ],
-  "updated_at": "1767012344",
+  "updated_at": "1767015578",
   "version": "1.0.0"
 }

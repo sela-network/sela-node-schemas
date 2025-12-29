@@ -8,273 +8,15 @@
   "metadata": {
     "author": "Sela Network",
     "cid": "bafk_medium_com_v1",
-    "created_at": 1767007138,
+    "created_at": 1767013196,
     "description": "Semantic extraction schema for medium_com",
     "name": "medium_com Schema",
     "tags": [],
-    "updated_at": 1767012344,
-    "version": "1.0.1"
+    "updated_at": 1767013196,
+    "version": "1.0.0"
   },
   "page_types": {
     "search": {
-      "content_schemas": [
-        {
-          "actions": [
-            {
-              "action_type": "click",
-              "requires_confirmation": false,
-              "risk_level": 2,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "button[data-action='multi-vote']"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "button[aria-label*='clap']"
-                },
-                "scope": "container"
-              },
-              "semantic_intent": "clap"
-            },
-            {
-              "action_type": "click",
-              "requires_confirmation": false,
-              "risk_level": 3,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "button[aria-label*='bookmark']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "button[data-action='save-post']"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "button[aria-label*='save']"
-                },
-                "scope": "container"
-              },
-              "semantic_intent": "bookmark"
-            }
-          ],
-          "container_selector": {
-            "fallbacks": [
-              {
-                "type": "css",
-                "value": "[data-post-id]"
-              },
-              {
-                "type": "css",
-                "value": "div[role='listitem']"
-              }
-            ],
-            "primary": {
-              "type": "css",
-              "value": "article"
-            },
-            "scope": "container"
-          },
-          "content_type": "article",
-          "fields": [
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "title",
-              "required": false,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "h3"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[data-testid='postTitle']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[href*='/@'] > div"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "h2"
-                },
-                "scope": "container"
-              }
-            },
-            {
-              "extraction": {
-                "attribute": "href"
-              },
-              "field_type": "url",
-              "name": "link",
-              "required": false,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "h3 a"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[href*='/@'][href*='-']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[href*='/p/']"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "h2 a"
-                },
-                "scope": "container"
-              }
-            },
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "subtitle",
-              "required": false,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "p"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[data-testid='postSubtitle']"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "h3"
-                },
-                "scope": "container"
-              }
-            },
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "author",
-              "required": false,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[data-testid='authorName']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[rel='author']"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "a[href*='/@']:not([href*='-']) p"
-                },
-                "scope": "container"
-              }
-            },
-            {
-              "extraction": {
-                "attribute": "src"
-              },
-              "field_type": "image",
-              "name": "image",
-              "required": false,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "picture img"
-                  },
-                  {
-                    "type": "css",
-                    "value": "img[loading='lazy']"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "img[width]:not([width='20']):not([width='32']):not([width='40']):not([width='48'])"
-                },
-                "scope": "container"
-              }
-            },
-            {
-              "extraction": {
-                "attribute": "datetime"
-              },
-              "field_type": "timestamp",
-              "name": "timestamp",
-              "required": false,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[datetime]"
-                  },
-                  {
-                    "type": "css",
-                    "value": "time"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "time[datetime]"
-                },
-                "scope": "container"
-              }
-            },
-            {
-              "default": 0,
-              "extraction": "text",
-              "field_type": "number",
-              "name": "engagement_count",
-              "required": false,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[data-testid='clapCount']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "button[data-action='show-post-reactions'] span"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "button[aria-label*='clap'] span"
-                },
-                "scope": "container"
-              },
-              "transform": "parse_compact_number"
-            }
-          ],
-          "is_list": true,
-          "nested_content": [],
-          "required_fields": [],
-          "semantic_role": "article"
-        }
-      ],
-      "display_name": "Search Results",
-      "page_actions": [],
-      "page_type_id": "search",
-      "root_selector": null,
-      "url_patterns": [
-        "/search"
-      ]
-    },
-    "search_results": {
       "content_schemas": [
         {
           "actions": [
@@ -352,6 +94,10 @@
             "fallbacks": [
               {
                 "type": "css",
+                "value": "article"
+              },
+              {
+                "type": "css",
                 "value": "[data-urn]"
               },
               {
@@ -361,7 +107,7 @@
             ],
             "primary": {
               "type": "css",
-              "value": "article[role='article']"
+              "value": "[role='article']"
             },
             "scope": "container"
           },
@@ -550,7 +296,7 @@
       ],
       "display_name": "Search Results",
       "page_actions": [],
-      "page_type_id": "search_results",
+      "page_type_id": "search",
       "root_selector": null,
       "url_patterns": [
         "/search"
