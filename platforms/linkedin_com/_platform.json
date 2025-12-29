@@ -630,13 +630,46 @@
             {
               "extraction": "text",
               "field_type": "text",
-              "name": "profile_name",
+              "name": "title",
               "required": false,
               "selector": {
-                "fallbacks": [],
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "a span[aria-hidden='true']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "span[dir='ltr']"
+                  }
+                ],
                 "primary": {
                   "type": "css",
-                  "value": ".reusable-search__result-container .entity-result__title-text span[aria-hidden]"
+                  "value": "a[data-test-app-aware-link] span[aria-hidden='true']"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "attribute",
+              "attribute_name": "href",
+              "field_type": "url",
+              "name": "link",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "a[href*='/in/']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "a[href*='/company/']"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "a[data-test-app-aware-link]"
                 },
                 "scope": "container"
               }
@@ -644,45 +677,41 @@
             {
               "extraction": "text",
               "field_type": "text",
-              "name": "headline",
+              "name": "subtitle",
               "required": false,
               "selector": {
-                "fallbacks": [],
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "div > span[dir='ltr']"
+                  }
+                ],
                 "primary": {
                   "type": "css",
-                  "value": ".reusable-search__result-container .entity-result__primary-subtitle"
+                  "value": "div:nth-child(2) span[dir='ltr']"
                 },
                 "scope": "container"
               }
             },
             {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "location",
+              "extraction": "attribute",
+              "attribute_name": "src",
+              "field_type": "url",
+              "name": "image",
               "required": false,
               "selector": {
-                "fallbacks": [],
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "img[class*='EntityPhoto']"
+                  }
+                ],
                 "primary": {
                   "type": "css",
-                  "value": ".reusable-search__result-container .entity-result__secondary-subtitle"
+                  "value": "img"
                 },
                 "scope": "container"
               }
-            },
-            {
-              "extraction": "text",
-              "field_type": "number",
-              "name": "mutual_connections",
-              "required": false,
-              "selector": {
-                "fallbacks": [],
-                "primary": {
-                  "type": "css",
-                  "value": ".reusable-search__result-container .entity-result__simple-insight-text span"
-                },
-                "scope": "container"
-              },
-              "transform": "parse_int"
             }
           ],
           "is_list": true,
