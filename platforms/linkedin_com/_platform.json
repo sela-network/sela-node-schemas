@@ -613,10 +613,15 @@
             }
           ],
           "container_selector": {
-            "fallbacks": [],
+            "fallbacks": [
+              {
+                "type": "css",
+                "value": "div.search-result"
+              }
+            ],
             "primary": {
               "type": "css",
-              "value": "div.search-result"
+              "value": "[data-view-name='search-entity-result-universal-template']"
             },
             "scope": "container"
           },
