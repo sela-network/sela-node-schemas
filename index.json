@@ -3,7 +3,7 @@
   "updated_at": "1766825259",
   "platforms": [
     {
-      "platform_id": "x",
+      "platform_id": "x_com",
       "display_name": "X",
       "domains": [
         "x.com",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "platform_id": "linkedin",
+      "platform_id": "linkedin_com",
       "display_name": "LinkedIn",
       "domains": [
         "linkedin.com",
