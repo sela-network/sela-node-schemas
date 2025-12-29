@@ -9,13 +9,14 @@
     "content": {
       "actions": [
         {
-          "intent": "clap",
+          "intent": "like",
           "risk_level": 2,
           "selector": {
             "fallbacks": [
-              "[data-testid*='clap']"
+              "[aria-label*='like']",
+              "[data-testid*='like']"
             ],
-            "primary": "button[aria-label*='Clap']"
+            "primary": "button[aria-label*='Like']"
           },
           "type": "click"
         },
@@ -24,6 +25,7 @@
           "risk_level": 3,
           "selector": {
             "fallbacks": [
+              "[aria-label*='share']",
               "[data-testid*='share']"
             ],
             "primary": "button[aria-label*='Share']"
@@ -31,25 +33,27 @@
           "type": "click"
         },
         {
-          "intent": "bookmark",
+          "intent": "comment",
           "risk_level": 4,
           "selector": {
             "fallbacks": [
-              "[data-testid*='bookmark']"
+              "[aria-label*='comment']",
+              "[aria-label*='reply']"
             ],
-            "primary": "button[aria-label*='Bookmark']"
+            "primary": "button[aria-label*='Comment']"
           },
           "type": "click"
         }
       ],
       "container_selector": {
         "fallbacks": [
-          "[role='listitem']",
-          "article"
+          "article",
+          "[data-urn]",
+          "[data-view-name*='result']"
         ],
-        "primary": "div[data-testid='searchResults'] article"
+        "primary": "[role='listitem']"
       },
-      "content_type": "article",
+      "content_type": "post",
       "fields": [
         {
           "extraction": "text",
@@ -57,10 +61,11 @@
           "name": "title",
           "selector": {
             "fallbacks": [
-              "a h2",
-              "h3 a"
+              "a span[dir='ltr']",
+              "h3 a",
+              "[role='heading'] a"
             ],
-            "primary": "h2 a span[aria-hidden='true']"
+            "primary": "a span[aria-hidden='true']"
           }
         },
         {
@@ -71,10 +76,11 @@
           "name": "link",
           "selector": {
             "fallbacks": [
-              "a[href]",
+              "a[data-test-id]",
+              "a[href*='/@']",
               "a"
             ],
-            "primary": "h2 a"
+            "primary": "a[href]"
           }
         },
         {
@@ -83,10 +89,10 @@
           "name": "subtitle",
           "selector": {
             "fallbacks": [
-              "p",
-              "span"
+              "div[role='textbox']",
+              "[aria-hidden='true']:nth-of-type(2)"
             ],
-            "primary": "p span[aria-hidden='true']"
+            "primary": "p"
           }
         },
         {
@@ -98,9 +104,10 @@
           "selector": {
             "fallbacks": [
               "img[class*='Avatar']",
-              "img"
+              "img[class*='Photo']",
+              "img[class*='Entity']"
             ],
-            "primary": "img[class*='Image']"
+            "primary": "img"
           }
         },
         {
@@ -111,8 +118,9 @@
           "name": "timestamp",
           "selector": {
             "fallbacks": [
-              "time",
-              "[datetime]"
+              "[data-time]",
+              "[datetime]",
+              "time"
             ],
             "primary": "time[datetime]"
           }
@@ -124,22 +132,22 @@
           "name": "engagement_count",
           "selector": {
             "fallbacks": [
-              "button span",
-              "[data-testid='clap']"
+              "[aria-label*='like'] span",
+              "button span"
             ],
-            "primary": "[aria-label*='claps'] span"
+            "primary": "[aria-label*='reaction'] span"
           },
           "transform": "parse_compact_number"
         }
       ],
       "is_list": true,
-      "semantic_role": "listitem"
+      "semantic_role": "article"
     },
     "display_name": "Search Results",
     "page_type_id": "search_results",
     "root_selector": null,
     "url_patterns": [
-      "/search?q="
+      "/search"
     ]
   },
   "platform_id": "medium_com"

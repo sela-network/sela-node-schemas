@@ -12,7 +12,7 @@
     "description": "Semantic extraction schema for medium_com",
     "name": "medium_com Schema",
     "tags": [],
-    "updated_at": 1767009224,
+    "updated_at": 1767009595,
     "version": "1.0.0"
   },
   "page_types": {
@@ -302,16 +302,20 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "[data-testid*='clap']"
+                    "value": "[aria-label*='like']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[data-testid*='like']"
                   }
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "button[aria-label*='Clap']"
+                  "value": "button[aria-label*='Like']"
                 },
                 "scope": "container"
               },
-              "semantic_intent": "clap"
+              "semantic_intent": "like"
             },
             {
               "action_type": "click",
@@ -319,6 +323,10 @@
               "risk_level": 3,
               "selector": {
                 "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='share']"
+                  },
                   {
                     "type": "css",
                     "value": "[data-testid*='share']"
@@ -340,36 +348,44 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "[data-testid*='bookmark']"
+                    "value": "[aria-label*='comment']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='reply']"
                   }
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "button[aria-label*='Bookmark']"
+                  "value": "button[aria-label*='Comment']"
                 },
                 "scope": "container"
               },
-              "semantic_intent": "bookmark"
+              "semantic_intent": "comment"
             }
           ],
           "container_selector": {
             "fallbacks": [
               {
                 "type": "css",
-                "value": "[role='listitem']"
+                "value": "article"
               },
               {
                 "type": "css",
-                "value": "article"
+                "value": "[data-urn]"
+              },
+              {
+                "type": "css",
+                "value": "[data-view-name*='result']"
               }
             ],
             "primary": {
               "type": "css",
-              "value": "div[data-testid='searchResults'] article"
+              "value": "[role='listitem']"
             },
             "scope": "container"
           },
-          "content_type": "article",
+          "content_type": "post",
           "fields": [
             {
               "extraction": "text",
@@ -380,16 +396,20 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "a h2"
+                    "value": "a span[dir='ltr']"
                   },
                   {
                     "type": "css",
                     "value": "h3 a"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[role='heading'] a"
                   }
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "h2 a span[aria-hidden='true']"
+                  "value": "a span[aria-hidden='true']"
                 },
                 "scope": "container"
               }
@@ -405,7 +425,11 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "a[href]"
+                    "value": "a[data-test-id]"
+                  },
+                  {
+                    "type": "css",
+                    "value": "a[href*='/@']"
                   },
                   {
                     "type": "css",
@@ -414,7 +438,7 @@
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "h2 a"
+                  "value": "a[href]"
                 },
                 "scope": "container"
               }
@@ -428,16 +452,16 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "p"
+                    "value": "div[role='textbox']"
                   },
                   {
                     "type": "css",
-                    "value": "span"
+                    "value": "[aria-hidden='true']:nth-of-type(2)"
                   }
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "p span[aria-hidden='true']"
+                  "value": "p"
                 },
                 "scope": "container"
               }
@@ -457,12 +481,16 @@
                   },
                   {
                     "type": "css",
-                    "value": "img"
+                    "value": "img[class*='Photo']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "img[class*='Entity']"
                   }
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "img[class*='Image']"
+                  "value": "img"
                 },
                 "scope": "container"
               }
@@ -478,11 +506,15 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "time"
+                    "value": "[data-time]"
                   },
                   {
                     "type": "css",
                     "value": "[datetime]"
+                  },
+                  {
+                    "type": "css",
+                    "value": "time"
                   }
                 ],
                 "primary": {
@@ -502,16 +534,16 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "button span"
+                    "value": "[aria-label*='like'] span"
                   },
                   {
                     "type": "css",
-                    "value": "[data-testid='clap']"
+                    "value": "button span"
                   }
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "[aria-label*='claps'] span"
+                  "value": "[aria-label*='reaction'] span"
                 },
                 "scope": "container"
               },
@@ -521,7 +553,7 @@
           "is_list": true,
           "nested_content": [],
           "required_fields": [],
-          "semantic_role": "listitem"
+          "semantic_role": "article"
         }
       ],
       "display_name": "Search Results",
@@ -529,7 +561,7 @@
       "page_type_id": "search_results",
       "root_selector": null,
       "url_patterns": [
-        "/search?q="
+        "/search"
       ]
     }
   },
