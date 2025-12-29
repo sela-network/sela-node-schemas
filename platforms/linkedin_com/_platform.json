@@ -1,5 +1,4 @@
 {
-  "platform_id": "linkedin_com",
   "default_page_type": "feed",
   "display_name": "LinkedIn",
   "domains": [
@@ -13,7 +12,7 @@
     "description": "Semantic extraction schema for linkedin",
     "name": "linkedin Schema",
     "tags": [],
-    "updated_at": 1766836932,
+    "updated_at": 1767005951,
     "version": "1.0.0"
   },
   "page_types": {
@@ -574,64 +573,134 @@
               "requires_confirmation": false,
               "risk_level": 2,
               "selector": {
-                "fallbacks": [],
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='like']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[data-testid*='like']"
+                  }
+                ],
                 "primary": {
                   "type": "css",
-                  "value": "button[aria-label='Connect']"
+                  "value": "button[aria-label*='Like']"
                 },
                 "scope": "container"
               },
-              "semantic_intent": "connect"
+              "semantic_intent": "like"
             },
             {
               "action_type": "click",
               "requires_confirmation": false,
-              "risk_level": 2,
+              "risk_level": 3,
               "selector": {
-                "fallbacks": [],
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='share']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[data-testid*='share']"
+                  }
+                ],
                 "primary": {
                   "type": "css",
-                  "value": "button[aria-label='Follow']"
+                  "value": "button[aria-label*='Share']"
                 },
                 "scope": "container"
               },
-              "semantic_intent": "follow"
+              "semantic_intent": "share"
             },
             {
               "action_type": "click",
               "requires_confirmation": false,
-              "risk_level": 2,
+              "risk_level": 4,
               "selector": {
-                "fallbacks": [],
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='comment']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='reply']"
+                  }
+                ],
                 "primary": {
                   "type": "css",
-                  "value": "button[aria-label='Message']"
+                  "value": "button[aria-label*='Comment']"
                 },
                 "scope": "container"
               },
-              "semantic_intent": "message"
+              "semantic_intent": "comment"
             }
           ],
           "container_selector": {
-            "fallbacks": [],
+            "fallbacks": [
+              {
+                "type": "css",
+                "value": "li[data-urn]"
+              },
+              {
+                "type": "css",
+                "value": "[role='listitem']"
+              }
+            ],
             "primary": {
               "type": "css",
-              "value": "div.search-result"
+              "value": "[data-urn]"
             },
             "scope": "container"
           },
-          "content_type": "search_result",
+          "content_type": "result",
           "fields": [
             {
               "extraction": "text",
               "field_type": "text",
-              "name": "profile_name",
+              "name": "title",
               "required": false,
               "selector": {
-                "fallbacks": [],
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "h3 a"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[role='heading'] a"
+                  }
+                ],
                 "primary": {
                   "type": "css",
-                  "value": ".reusable-search__result-container .entity-result__title-text span[aria-hidden]"
+                  "value": "a span[aria-hidden='true']"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {
+                "attribute": "href"
+              },
+              "field_type": "url",
+              "name": "link",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "a[href*='/company/']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "a[href*='/profile/']"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "a[href*='/in/']"
                 },
                 "scope": "container"
               }
@@ -639,59 +708,123 @@
             {
               "extraction": "text",
               "field_type": "text",
-              "name": "headline",
+              "name": "subtitle",
               "required": false,
               "selector": {
-                "fallbacks": [],
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-hidden='true']:nth-of-type(2)"
+                  },
+                  {
+                    "type": "css",
+                    "value": "p span[dir='ltr']"
+                  }
+                ],
                 "primary": {
                   "type": "css",
-                  "value": ".reusable-search__result-container .entity-result__primary-subtitle"
+                  "value": "div:nth-of-type(2) span[dir='ltr']"
                 },
                 "scope": "container"
               }
             },
             {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "location",
+              "extraction": {
+                "attribute": "src"
+              },
+              "field_type": "image",
+              "name": "image",
               "required": false,
               "selector": {
-                "fallbacks": [],
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "img[class*='Avatar']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "img[class*='Entity']"
+                  },
+                  {
+                    "type": "css",
+                    "value": "img"
+                  }
+                ],
                 "primary": {
                   "type": "css",
-                  "value": ".reusable-search__result-container .entity-result__secondary-subtitle"
+                  "value": "img[class*='Photo']"
                 },
                 "scope": "container"
               }
             },
             {
+              "extraction": {
+                "attribute": "datetime"
+              },
+              "field_type": "timestamp",
+              "name": "timestamp",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[data-time]"
+                  },
+                  {
+                    "type": "css",
+                    "value": "[datetime]"
+                  },
+                  {
+                    "type": "css",
+                    "value": "time"
+                  }
+                ],
+                "primary": {
+                  "type": "css",
+                  "value": "time[datetime]"
+                },
+                "scope": "container"
+              }
+            },
+            {
+              "default": 0,
               "extraction": "text",
               "field_type": "number",
-              "name": "mutual_connections",
+              "name": "engagement_count",
               "required": false,
               "selector": {
-                "fallbacks": [],
+                "fallbacks": [
+                  {
+                    "type": "css",
+                    "value": "[aria-label*='like'] span"
+                  },
+                  {
+                    "type": "css",
+                    "value": "button span"
+                  }
+                ],
                 "primary": {
                   "type": "css",
-                  "value": ".reusable-search__result-container .entity-result__simple-insight-text span"
+                  "value": "[aria-label*='reaction'] span"
                 },
                 "scope": "container"
               },
-              "transform": "parse_number"
+              "transform": "parse_compact_number"
             }
           ],
           "is_list": true,
           "nested_content": [],
           "required_fields": [],
-          "semantic_role": "article"
+          "semantic_role": "listitem"
         }
       ],
       "display_name": "Search Results",
       "page_actions": [],
       "page_type_id": "search_results",
-      "root_selector": "div.search-results-container",
+      "root_selector": null,
       "url_patterns": [
-        "/search/results/all/"
+        "/search/results",
+        "/search"
       ]
     }
   },

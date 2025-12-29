@@ -1,59 +1,151 @@
 {
   "display_name": "LinkedIn",
   "domains": [
-    "linkedin.com"
+    "linkedin.com",
+    "www.linkedin.com",
+    "m.linkedin.com"
   ],
   "page_type": {
     "content": {
       "actions": [
         {
-          "intent": "connect",
-          "selector": "button[aria-label='Connect']",
+          "intent": "like",
+          "risk_level": 2,
+          "selector": {
+            "fallbacks": [
+              "[aria-label*='like']",
+              "[data-testid*='like']"
+            ],
+            "primary": "button[aria-label*='Like']"
+          },
           "type": "click"
         },
         {
-          "intent": "follow",
-          "selector": "button[aria-label='Follow']",
+          "intent": "share",
+          "risk_level": 3,
+          "selector": {
+            "fallbacks": [
+              "[aria-label*='share']",
+              "[data-testid*='share']"
+            ],
+            "primary": "button[aria-label*='Share']"
+          },
           "type": "click"
         },
         {
-          "intent": "message",
-          "selector": "button[aria-label='Message']",
+          "intent": "comment",
+          "risk_level": 4,
+          "selector": {
+            "fallbacks": [
+              "[aria-label*='comment']",
+              "[aria-label*='reply']"
+            ],
+            "primary": "button[aria-label*='Comment']"
+          },
           "type": "click"
         }
       ],
-      "container_selector": "div.search-result",
-      "content_type": "search_result",
+      "container_selector": {
+        "fallbacks": [
+          "li[data-urn]",
+          "[role='listitem']"
+        ],
+        "primary": "[data-urn]"
+      },
+      "content_type": "result",
       "fields": [
         {
           "extraction": "text",
-          "name": "profile_name",
-          "selector": ".reusable-search__result-container .entity-result__title-text span[aria-hidden]"
+          "field_type": "text",
+          "name": "title",
+          "selector": {
+            "fallbacks": [
+              "h3 a",
+              "[role='heading'] a"
+            ],
+            "primary": "a span[aria-hidden='true']"
+          }
+        },
+        {
+          "extraction": {
+            "attribute": "href"
+          },
+          "field_type": "url",
+          "name": "link",
+          "selector": {
+            "fallbacks": [
+              "a[href*='/company/']",
+              "a[href*='/profile/']"
+            ],
+            "primary": "a[href*='/in/']"
+          }
         },
         {
           "extraction": "text",
-          "name": "headline",
-          "selector": ".reusable-search__result-container .entity-result__primary-subtitle"
+          "field_type": "text",
+          "name": "subtitle",
+          "selector": {
+            "fallbacks": [
+              "[aria-hidden='true']:nth-of-type(2)",
+              "p span[dir='ltr']"
+            ],
+            "primary": "div:nth-of-type(2) span[dir='ltr']"
+          }
         },
         {
-          "extraction": "text",
-          "name": "location",
-          "selector": ".reusable-search__result-container .entity-result__secondary-subtitle"
+          "extraction": {
+            "attribute": "src"
+          },
+          "field_type": "image",
+          "name": "image",
+          "selector": {
+            "fallbacks": [
+              "img[class*='Avatar']",
+              "img[class*='Entity']",
+              "img"
+            ],
+            "primary": "img[class*='Photo']"
+          }
         },
         {
+          "extraction": {
+            "attribute": "datetime"
+          },
+          "field_type": "timestamp",
+          "name": "timestamp",
+          "selector": {
+            "fallbacks": [
+              "[data-time]",
+              "[datetime]",
+              "time"
+            ],
+            "primary": "time[datetime]"
+          }
+        },
+        {
+          "default": 0,
           "extraction": "text",
-          "name": "mutual_connections",
-          "selector": ".reusable-search__result-container .entity-result__simple-insight-text span",
-          "transform": "parse_number"
+          "field_type": "number",
+          "name": "engagement_count",
+          "selector": {
+            "fallbacks": [
+              "[aria-label*='like'] span",
+              "button span"
+            ],
+            "primary": "[aria-label*='reaction'] span"
+          },
+          "transform": "parse_compact_number"
         }
       ],
-      "is_list": true
+      "is_list": true,
+      "semantic_role": "listitem"
     },
     "display_name": "Search Results",
     "page_type_id": "search_results",
-    "root_selector": "div.search-results-container",
+    "root_selector": null,
     "url_patterns": [
-      "/search/results/all/"
+      "/search/results",
+      "/search"
     ]
   },
   "platform_id": "linkedin"
