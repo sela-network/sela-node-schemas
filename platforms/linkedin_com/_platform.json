@@ -12,7 +12,7 @@
     "description": "Semantic extraction schema for linkedin",
     "name": "linkedin Schema",
     "tags": [],
-    "updated_at": 1767005951,
+    "updated_at": 1767006181,
     "version": "1.0.0"
   },
   "page_types": {
@@ -642,20 +642,20 @@
             "fallbacks": [
               {
                 "type": "css",
-                "value": "li[data-urn]"
+                "value": "div[data-urn]"
               },
               {
                 "type": "css",
-                "value": "[role='listitem']"
+                "value": "article[role='article']"
               }
             ],
             "primary": {
               "type": "css",
-              "value": "[data-urn]"
+              "value": "[role='listitem']"
             },
             "scope": "container"
           },
-          "content_type": "result",
+          "content_type": "result_item",
           "fields": [
             {
               "extraction": "text",
@@ -670,7 +670,7 @@
                   },
                   {
                     "type": "css",
-                    "value": "[role='heading'] a"
+                    "value": "div[role='heading'] a"
                   }
                 ],
                 "primary": {
@@ -691,7 +691,7 @@
                 "fallbacks": [
                   {
                     "type": "css",
-                    "value": "a[href*='/company/']"
+                    "value": "a[href*='/in/']"
                   },
                   {
                     "type": "css",
@@ -700,7 +700,7 @@
                 ],
                 "primary": {
                   "type": "css",
-                  "value": "a[href*='/in/']"
+                  "value": "a[data-test-app-aware-link]"
                 },
                 "scope": "container"
               }
@@ -823,9 +823,9 @@
       "page_type_id": "search_results",
       "root_selector": null,
       "url_patterns": [
-        "/search/results",
-        "/search"
+        "/search/results/all/"
       ]
     }
-  }
+  },
+  "platform_id": "linkedin_com"
 }

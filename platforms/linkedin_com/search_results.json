@@ -2,8 +2,7 @@
   "display_name": "LinkedIn",
   "domains": [
     "linkedin.com",
-    "www.linkedin.com",
-    "m.linkedin.com"
+    "www.linkedin.com"
   ],
   "page_type": {
     "content": {
@@ -47,12 +46,12 @@
       ],
       "container_selector": {
         "fallbacks": [
-          "li[data-urn]",
-          "[role='listitem']"
+          "div[data-urn]",
+          "article[role='article']"
         ],
-        "primary": "[data-urn]"
+        "primary": "[role='listitem']"
       },
-      "content_type": "result",
+      "content_type": "result_item",
       "fields": [
         {
           "extraction": "text",
@@ -61,7 +60,7 @@
           "selector": {
             "fallbacks": [
               "h3 a",
-              "[role='heading'] a"
+              "div[role='heading'] a"
             ],
             "primary": "a span[aria-hidden='true']"
           }
@@ -74,10 +73,10 @@
           "name": "link",
           "selector": {
             "fallbacks": [
-              "a[href*='/company/']",
+              "a[href*='/in/']",
               "a[href*='/profile/']"
             ],
-            "primary": "a[href*='/in/']"
+            "primary": "a[data-test-app-aware-link]"
           }
         },
         {
@@ -144,9 +143,8 @@
     "page_type_id": "search_results",
     "root_selector": null,
     "url_patterns": [
-      "/search/results",
-      "/search"
+      "/search/results/all/"
     ]
   },
-  "platform_id": "linkedin"
+  "platform_id": "linkedin_com"
 }
