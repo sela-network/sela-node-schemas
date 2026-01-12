@@ -7,9 +7,7 @@
       "domains": [
         "x.com",
         "www.x.com",
-        "m.x.com",
-        "twitter.com",
-        "www.twitter.com"
+        "m.x.com"
       ],
       "login_url": "https://x.com/login",
       "login_verification": {
@@ -18,7 +16,6 @@
           "ct0"
         ],
         "host_patterns": [
-          "%twitter.com",
           "%x.com"
         ],
         "min_cookie_count": 1,
@@ -243,19 +240,6 @@
         "profile"
       ],
       "platform_id": "xiaohongshu_com"
-    },
-    {
-      "cid": "bafk_medium.com_com_v1",
-      "display_name": "Medium",
-      "domains": [
-        "medium.com",
-        "www.medium.com",
-        "m.medium.com"
-      ],
-      "page_types": [
-        "search"
-      ],
-      "platform_id": "medium.com_com"
     }
   ],
   "updated_at": "1768242062",
@@ -270,9 +254,6 @@
     "*.facebook.com",
     "*.reddit.com",
     "*.tiktok.com",
-    "*.xiaohongshu.com",
-    "medium.com",
-    "www.medium.com",
-    "m.medium.com"
+    "*.xiaohongshu.com"
   ]
 }
