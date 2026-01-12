@@ -47,13 +47,13 @@
       ],
       "container_selector": {
         "fallbacks": [
-          "article",
+          "article[role='article']",
           "[data-urn]",
           "[role='listitem']"
         ],
-        "primary": "[role='article']"
+        "primary": "[data-testid='post-preview']"
       },
-      "content_type": "article",
+      "content_type": "post",
       "fields": [
         {
           "extraction": "text",
@@ -91,11 +91,11 @@
           "name": "subtitle",
           "selector": {
             "fallbacks": [
-              "h3",
+              "p",
               "[class*='excerpt']",
               "[class*='description']"
             ],
-            "primary": "p"
+            "primary": "h3"
           }
         },
         {
@@ -114,18 +114,17 @@
           }
         },
         {
-          "extraction": {
-            "attribute": "datetime"
-          },
+          "extraction": "text",
           "field_type": "timestamp",
           "name": "timestamp",
           "selector": {
             "fallbacks": [
+              "time[datetime]",
               "[data-time]",
               "[datetime]",
               "time"
             ],
-            "primary": "time[datetime]"
+            "primary": "div > span > div > div > a > div > span"
           }
         },
         {
@@ -153,5 +152,5 @@
       "/search"
     ]
   },
-  "platform_id": "medium"
+  "platform_id": "medium.com"
 }
