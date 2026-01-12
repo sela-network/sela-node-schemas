@@ -11,7 +11,6 @@
     "*.facebook.com",
     "*.reddit.com",
     "*.tiktok.com",
-    "*.github.com",
     "*.xiaohongshu.com"
   ],
   "blacklist": [],
@@ -139,20 +138,6 @@
         "type": "cookie",
         "host_patterns": ["%tiktok.com"],
         "cookie_names": ["sessionid", "sid_tt", "sessionid_ss"],
-        "min_cookie_count": 1
-      }
-    },
-    {
-      "platform_id": "github_com",
-      "display_name": "GitHub",
-      "login_url": "https://github.com/login",
-      "domains": ["github.com", "www.github.com"],
-      "cid": "bafk_github_com_v1",
-      "page_types": [],
-      "login_verification": {
-        "type": "cookie",
-        "host_patterns": ["%github.com"],
-        "cookie_names": ["user_session", "logged_in", "_gh_sess"],
         "min_cookie_count": 1
       }
     },
