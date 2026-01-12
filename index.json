@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "updated_at": "1736697600",
   "whitelist": [
     "*.x.com",
@@ -10,8 +10,9 @@
     "*.instagram.com",
     "*.facebook.com",
     "*.reddit.com",
+    "*.tiktok.com",
     "*.github.com",
-    "*.tiktok.com"
+    "*.xiaohongshu.com"
   ],
   "blacklist": [],
   "platforms": [
@@ -19,134 +20,155 @@
       "platform_id": "x_com",
       "display_name": "X",
       "login_url": "https://x.com/login",
-      "domains": [
-        "x.com",
-        "www.x.com",
-        "m.x.com"
-      ],
+      "domains": ["x.com", "www.x.com", "m.x.com", "twitter.com", "www.twitter.com"],
       "cid": "bafk_x_com_v1",
-      "page_types": [
-        "search",
-        "timeline",
-        "profile"
-      ]
+      "page_types": ["search", "timeline", "profile"],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%twitter.com", "%x.com"],
+        "cookie_names": ["auth_token", "ct0"],
+        "min_cookie_count": 1
+      }
     },
     {
       "platform_id": "linkedin_com",
       "display_name": "LinkedIn",
       "login_url": "https://www.linkedin.com/login",
-      "domains": [
-        "linkedin.com",
-        "www.linkedin.com",
-        "m.linkedin.com"
-      ],
+      "domains": ["linkedin.com", "www.linkedin.com", "m.linkedin.com"],
       "cid": "bafk_linkedin_com_v1",
-      "page_types": [
-        "search",
-        "feed",
-        "profile"
-      ]
+      "page_types": ["search", "feed", "profile"],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%linkedin.com"],
+        "cookie_names": ["li_at"],
+        "min_cookie_count": 1
+      }
     },
     {
       "platform_id": "medium_com",
       "display_name": "Medium",
       "login_url": "https://medium.com/m/signin",
-      "domains": [
-        "medium.com",
-        "www.medium.com",
-        "m.medium.com"
-      ],
+      "domains": ["medium.com", "www.medium.com", "m.medium.com"],
       "cid": "bafk_medium_com_v1",
-      "page_types": [
-        "search"
-      ]
+      "page_types": ["search"],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%medium.com"],
+        "cookie_names": ["uid", "sid"],
+        "min_cookie_count": 1
+      }
     },
     {
       "platform_id": "google_com",
       "display_name": "Google",
       "login_url": "https://accounts.google.com",
-      "domains": [
-        "google.com",
-        "www.google.com",
-        "accounts.google.com"
-      ],
+      "domains": ["google.com", "www.google.com", "accounts.google.com"],
       "cid": "bafk_google_com_v1",
-      "page_types": [
-        "search"
-      ]
+      "page_types": ["search"],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%google.com"],
+        "cookie_names": ["SAPISID", "SSID", "SID", "APISID"],
+        "min_cookie_count": 2
+      }
     },
     {
       "platform_id": "youtube_com",
       "display_name": "YouTube",
       "login_url": "https://accounts.google.com/ServiceLogin?service=youtube",
-      "domains": [
-        "youtube.com",
-        "www.youtube.com",
-        "m.youtube.com"
-      ],
+      "domains": ["youtube.com", "www.youtube.com", "m.youtube.com"],
       "cid": "bafk_youtube_com_v1",
-      "page_types": [
-        "search"
-      ]
+      "page_types": ["search"],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%youtube.com", "%google.com"],
+        "cookie_names": ["SAPISID", "SSID", "SID", "LOGIN_INFO"],
+        "min_cookie_count": 2
+      }
     },
     {
       "platform_id": "reddit_com",
       "display_name": "Reddit",
       "login_url": "https://www.reddit.com/login",
-      "domains": [
-        "reddit.com",
-        "www.reddit.com",
-        "old.reddit.com"
-      ],
+      "domains": ["reddit.com", "www.reddit.com", "old.reddit.com"],
       "cid": "bafk_reddit_com_v1",
-      "page_types": [
-        "search"
-      ]
+      "page_types": ["search"],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%reddit.com"],
+        "cookie_names": ["reddit_session", "token_v2", "session_tracker"],
+        "min_cookie_count": 1
+      }
     },
     {
       "platform_id": "instagram_com",
       "display_name": "Instagram",
       "login_url": "https://www.instagram.com/accounts/login/",
-      "domains": [
-        "instagram.com",
-        "www.instagram.com"
-      ],
+      "domains": ["instagram.com", "www.instagram.com"],
       "cid": "bafk_instagram_com_v1",
-      "page_types": []
+      "page_types": [],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%instagram.com"],
+        "cookie_names": ["sessionid", "ds_user_id"],
+        "min_cookie_count": 1
+      }
     },
     {
       "platform_id": "facebook_com",
       "display_name": "Facebook",
       "login_url": "https://www.facebook.com/login",
-      "domains": [
-        "facebook.com",
-        "www.facebook.com",
-        "m.facebook.com"
-      ],
+      "domains": ["facebook.com", "www.facebook.com", "m.facebook.com"],
       "cid": "bafk_facebook_com_v1",
-      "page_types": []
+      "page_types": [],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%facebook.com"],
+        "cookie_names": ["c_user", "xs"],
+        "min_cookie_count": 2
+      }
     },
     {
       "platform_id": "tiktok_com",
       "display_name": "TikTok",
       "login_url": "https://www.tiktok.com/login",
-      "domains": [
-        "tiktok.com",
-        "www.tiktok.com"
-      ],
+      "domains": ["tiktok.com", "www.tiktok.com"],
       "cid": "bafk_tiktok_com_v1",
-      "page_types": []
+      "page_types": [],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%tiktok.com"],
+        "cookie_names": ["sessionid", "sid_tt", "sessionid_ss"],
+        "min_cookie_count": 1
+      }
     },
     {
       "platform_id": "github_com",
       "display_name": "GitHub",
       "login_url": "https://github.com/login",
-      "domains": [
-        "github.com",
-        "www.github.com"
-      ],
+      "domains": ["github.com", "www.github.com"],
       "cid": "bafk_github_com_v1",
-      "page_types": []
+      "page_types": [],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%github.com"],
+        "cookie_names": ["user_session", "logged_in", "_gh_sess"],
+        "min_cookie_count": 1
+      }
+    },
+    {
+      "platform_id": "xiaohongshu_com",
+      "display_name": "Xiaohongshu",
+      "login_url": "https://www.xiaohongshu.com/login",
+      "domains": ["xiaohongshu.com", "www.xiaohongshu.com"],
+      "cid": "bafk_xiaohongshu_com_v1",
+      "page_types": ["search", "profile"],
+      "login_verification": {
+        "type": "cookie",
+        "host_patterns": ["%xiaohongshu.com"],
+        "cookie_names": ["web_session", "xsecappid"],
+        "min_cookie_count": 1
+      }
     }
   ]
 }
