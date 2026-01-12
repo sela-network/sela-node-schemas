@@ -1,9 +1,8 @@
 {
   "version": "1.0.0",
-  "updated_at": "1767015578",
+  "updated_at": "1736697600",
   "whitelist": [
     "*.x.com",
-    "*.twitter.com",
     "*.linkedin.com",
     "*.medium.com",
     "*.google.com",
@@ -11,29 +10,31 @@
     "*.instagram.com",
     "*.facebook.com",
     "*.reddit.com",
-    "*.xiaohongshu.com"
+    "*.github.com",
+    "*.tiktok.com"
   ],
   "blacklist": [],
   "platforms": [
     {
       "platform_id": "x_com",
-      "display_name": "X Platform",
+      "display_name": "X",
+      "login_url": "https://x.com/login",
       "domains": [
         "x.com",
         "www.x.com",
-        "m.x.com",
-        "twitter.com",
-        "www.twitter.com",
-        "mobile.twitter.com"
+        "m.x.com"
       ],
       "cid": "bafk_x_com_v1",
       "page_types": [
-        "search"
+        "search",
+        "timeline",
+        "profile"
       ]
     },
     {
       "platform_id": "linkedin_com",
       "display_name": "LinkedIn",
+      "login_url": "https://www.linkedin.com/login",
       "domains": [
         "linkedin.com",
         "www.linkedin.com",
@@ -41,12 +42,15 @@
       ],
       "cid": "bafk_linkedin_com_v1",
       "page_types": [
-        "search"
+        "search",
+        "feed",
+        "profile"
       ]
     },
     {
       "platform_id": "medium_com",
       "display_name": "Medium",
+      "login_url": "https://medium.com/m/signin",
       "domains": [
         "medium.com",
         "www.medium.com",
@@ -56,6 +60,93 @@
       "page_types": [
         "search"
       ]
+    },
+    {
+      "platform_id": "google_com",
+      "display_name": "Google",
+      "login_url": "https://accounts.google.com",
+      "domains": [
+        "google.com",
+        "www.google.com",
+        "accounts.google.com"
+      ],
+      "cid": "bafk_google_com_v1",
+      "page_types": [
+        "search"
+      ]
+    },
+    {
+      "platform_id": "youtube_com",
+      "display_name": "YouTube",
+      "login_url": "https://accounts.google.com/ServiceLogin?service=youtube",
+      "domains": [
+        "youtube.com",
+        "www.youtube.com",
+        "m.youtube.com"
+      ],
+      "cid": "bafk_youtube_com_v1",
+      "page_types": [
+        "search"
+      ]
+    },
+    {
+      "platform_id": "reddit_com",
+      "display_name": "Reddit",
+      "login_url": "https://www.reddit.com/login",
+      "domains": [
+        "reddit.com",
+        "www.reddit.com",
+        "old.reddit.com"
+      ],
+      "cid": "bafk_reddit_com_v1",
+      "page_types": [
+        "search"
+      ]
+    },
+    {
+      "platform_id": "instagram_com",
+      "display_name": "Instagram",
+      "login_url": "https://www.instagram.com/accounts/login/",
+      "domains": [
+        "instagram.com",
+        "www.instagram.com"
+      ],
+      "cid": "bafk_instagram_com_v1",
+      "page_types": []
+    },
+    {
+      "platform_id": "facebook_com",
+      "display_name": "Facebook",
+      "login_url": "https://www.facebook.com/login",
+      "domains": [
+        "facebook.com",
+        "www.facebook.com",
+        "m.facebook.com"
+      ],
+      "cid": "bafk_facebook_com_v1",
+      "page_types": []
+    },
+    {
+      "platform_id": "tiktok_com",
+      "display_name": "TikTok",
+      "login_url": "https://www.tiktok.com/login",
+      "domains": [
+        "tiktok.com",
+        "www.tiktok.com"
+      ],
+      "cid": "bafk_tiktok_com_v1",
+      "page_types": []
+    },
+    {
+      "platform_id": "github_com",
+      "display_name": "GitHub",
+      "login_url": "https://github.com/login",
+      "domains": [
+        "github.com",
+        "www.github.com"
+      ],
+      "cid": "bafk_github_com_v1",
+      "page_types": []
     }
   ]
 }
