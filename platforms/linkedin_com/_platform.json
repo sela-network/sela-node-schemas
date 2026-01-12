@@ -6,7 +6,7 @@
     "m.linkedin.com"
   ],
   "metadata": {
-    "author": "Sela Network",
+    "author": "SelaNet",
     "cid": "bafk_linkedin_com_v1",
     "created_at": 1767013405,
     "description": "Semantic extraction schema for linkedin_com",
