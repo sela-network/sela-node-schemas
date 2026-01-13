@@ -1,4 +1,5 @@
 {
+  "platform_id": "medium_com",
   "display_name": "Medium",
   "domains": [
     "medium.com",
@@ -7,13 +8,14 @@
   ],
   "metadata": {
     "author": "SelaNet",
-    "cid": "bafk_medium_com_v1",
+    "cid": "bafk_medium_com_v1_1",
     "created_at": 1767013196,
     "description": "Semantic extraction schema for medium_com",
     "name": "medium_com Schema",
-    "tags": [],
-    "updated_at": 1768242062,
-    "version": "1.0.0"
+    "tags": ["blog", "articles"],
+    "updated_at": 1768292067,
+    "version": "1.1.1",
+    "last_verified": "2026-01-13"
   },
   "page_types": {
     "search": {
@@ -26,22 +28,27 @@
               "risk_level": 2,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[aria-label*='like']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[data-testid*='like']"
-                  }
+                  {"type": "css", "value": "button[aria-label*='clap']"},
+                  {"type": "css", "value": "[data-testid*='clap']"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "button[aria-label*='Like']"
-                },
+                "primary": {"type": "css", "value": "button[aria-label*='Clap']"},
                 "scope": "container"
               },
-              "semantic_intent": "like"
+              "semantic_intent": "clap"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 2,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "button[aria-label*='save']"},
+                  {"type": "css", "value": "button[aria-label*='bookmark']"}
+                ],
+                "primary": {"type": "css", "value": "button[aria-label*='Save']"},
+                "scope": "container"
+              },
+              "semantic_intent": "save"
             },
             {
               "action_type": "click",
@@ -49,131 +56,52 @@
               "risk_level": 3,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[aria-label*='share']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[data-testid*='share']"
-                  }
+                  {"type": "css", "value": "button[aria-label*='share']"},
+                  {"type": "css", "value": "[data-testid*='share']"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "button[aria-label*='Share']"
-                },
+                "primary": {"type": "css", "value": "button[aria-label*='Share']"},
                 "scope": "container"
               },
               "semantic_intent": "share"
-            },
-            {
-              "action_type": "click",
-              "requires_confirmation": false,
-              "risk_level": 4,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[aria-label*='comment']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[aria-label*='reply']"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "button[aria-label*='Comment']"
-                },
-                "scope": "container"
-              },
-              "semantic_intent": "comment"
             }
           ],
           "container_selector": {
             "fallbacks": [
-              {
-                "type": "css",
-                "value": "article[role='article']"
-              },
-              {
-                "type": "css",
-                "value": "[data-urn]"
-              },
-              {
-                "type": "css",
-                "value": "[role='listitem']"
-              }
+              {"type": "css", "value": "article[data-testid]"},
+              {"type": "css", "value": "article"},
+              {"type": "css", "value": "[role='article']"}
             ],
-            "primary": {
-              "type": "css",
-              "value": "[data-testid='post-preview']"
-            },
+            "primary": {"type": "css", "value": "article[data-testid='post-preview']"},
             "scope": "container"
           },
-          "content_type": "post",
+          "content_type": "article",
           "fields": [
             {
               "extraction": "text",
               "field_type": "text",
               "name": "title",
-              "required": false,
+              "required": true,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "h3"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[role='heading']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[href*='/post'] span"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[href*='/article'] span"
-                  }
+                  {"type": "css", "value": "h3"},
+                  {"type": "css", "value": "[role='heading']"},
+                  {"type": "css", "value": "a[href*='source=search_post'] div h2"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "h2"
-                },
+                "primary": {"type": "css", "value": "h2"},
                 "scope": "container"
               }
             },
             {
-              "extraction": {
-                "attribute": "href"
-              },
+              "extraction": {"attribute": "href"},
               "field_type": "url",
               "name": "link",
-              "required": false,
+              "required": true,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "h3 a"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[href*='/post']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[href*='/article']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[href]:first-of-type"
-                  }
+                  {"type": "css", "value": "a[href*='source=search_post']"},
+                  {"type": "css", "value": "div[role='link']"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "h2 a"
-                },
+                "primary": {"type": "css", "value": "a[href*='?source=search_post-']"},
                 "scope": "container"
               }
             },
@@ -184,115 +112,100 @@
               "required": false,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "p"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[class*='excerpt']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[class*='description']"
-                  }
+                  {"type": "css", "value": "div h3"},
+                  {"type": "css", "value": "p"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "h3"
-                },
-                "scope": "container"
-              }
-            },
-            {
-              "extraction": {
-                "attribute": "src"
-              },
-              "field_type": "image",
-              "name": "image",
-              "required": false,
-              "selector": {
-                "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "picture img"
-                  },
-                  {
-                    "type": "css",
-                    "value": "img[width]"
-                  },
-                  {
-                    "type": "css",
-                    "value": "img"
-                  }
-                ],
-                "primary": {
-                  "type": "css",
-                  "value": "img:not([class*='avatar']):not([class*='Avatar'])"
-                },
+                "primary": {"type": "css", "value": "h3"},
                 "scope": "container"
               }
             },
             {
               "extraction": "text",
-              "field_type": "timestamp",
+              "field_type": "text",
+              "name": "author",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "a[href^='/@'] p"},
+                  {"type": "css", "value": "a[href*='/@'] span"}
+                ],
+                "primary": {"type": "css", "value": "a[href*='/@'] p"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "publication",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "a[href^='https://medium.com/'] p"}
+                ],
+                "primary": {"type": "css", "value": "a[href*='medium.com/'][href*='?source=search']:not([href*='/@']) p"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "src"},
+              "field_type": "image",
+              "name": "thumbnail",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "picture img"},
+                  {"type": "css", "value": "img[width]"}
+                ],
+                "primary": {"type": "css", "value": "img[width][height]"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "src"},
+              "field_type": "image",
+              "name": "author_avatar",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "img[width='24'][height='24']"}
+                ],
+                "primary": {"type": "css", "value": "img[width='20'][height='20']"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
               "name": "timestamp",
               "required": false,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "time[datetime]"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[data-time]"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[datetime]"
-                  },
-                  {
-                    "type": "css",
-                    "value": "time"
-                  }
+                  {"type": "css", "value": "time"},
+                  {"type": "css", "value": "[datetime]"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "div > span > div > div > a > div > span"
-                },
+                "primary": {"type": "css", "value": "span"},
                 "scope": "container"
-              }
+              },
+              "transform": "trim"
             },
             {
-              "default": 0,
-              "extraction": "text",
-              "field_type": "number",
-              "name": "engagement_count",
+              "default": false,
+              "extraction": "exists",
+              "field_type": "boolean",
+              "name": "is_member_only",
               "required": false,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[aria-label*='like'] span"
-                  },
-                  {
-                    "type": "css",
-                    "value": "button span"
-                  }
+                  {"type": "css", "value": "svg path[fill='#FFC017']"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "[aria-label*='reaction'] span"
-                },
+                "primary": {"type": "css", "value": "button[aria-label*='Member-only']"},
                 "scope": "container"
-              },
-              "transform": "parse_compact_number"
+              }
             }
           ],
           "is_list": true,
           "nested_content": [],
-          "required_fields": [],
+          "required_fields": ["title"],
           "semantic_role": "article"
         }
       ],
@@ -300,10 +213,7 @@
       "page_actions": [],
       "page_type_id": "search",
       "root_selector": null,
-      "url_patterns": [
-        "/search"
-      ]
+      "url_patterns": ["/search", "/search*"]
     }
-  },
-  "platform_id": "medium_com"
+  }
 }

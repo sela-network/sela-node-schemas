@@ -1,19 +1,24 @@
 {
-  "display_name": "X Platform",
+  "platform_id": "x_com",
+  "display_name": "X (Twitter)",
   "domains": [
     "x.com",
     "www.x.com",
-    "m.x.com"
+    "m.x.com",
+    "twitter.com",
+    "www.twitter.com",
+    "mobile.twitter.com"
   ],
   "metadata": {
     "author": "SelaNet",
-    "cid": "bafk_x_com_v1",
+    "cid": "bafk_x_com_v1_1",
     "created_at": 1767015220,
-    "description": "Semantic extraction schema for x_com",
-    "name": "x_com Schema",
-    "tags": [],
-    "updated_at": 1767015578,
-    "version": "1.0.0"
+    "description": "Semantic extraction schema for X (Twitter)",
+    "name": "X Platform Schema",
+    "tags": ["social", "microblog"],
+    "updated_at": 1768292373,
+    "version": "1.1.1",
+    "last_verified": "2026-01-13"
   },
   "page_types": {
     "search": {
@@ -26,19 +31,10 @@
               "risk_level": 2,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[aria-label*='like']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[data-testid*='like']"
-                  }
+                  {"type": "css", "value": "[data-testid='like']"},
+                  {"type": "css", "value": "button[aria-label*='Like']"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "button[aria-label*='Like']"
-                },
+                "primary": {"type": "css", "value": "[data-testid='like'] button"},
                 "scope": "container"
               },
               "semantic_intent": "like"
@@ -46,199 +42,152 @@
             {
               "action_type": "click",
               "requires_confirmation": false,
-              "risk_level": 3,
+              "risk_level": 4,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[aria-label*='share']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[data-testid*='share']"
-                  }
+                  {"type": "css", "value": "[data-testid='retweet']"},
+                  {"type": "css", "value": "button[aria-label*='Repost']"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "button[aria-label*='Share']"
-                },
+                "primary": {"type": "css", "value": "[data-testid='retweet'] button"},
                 "scope": "container"
               },
-              "semantic_intent": "share"
+              "semantic_intent": "retweet"
             },
             {
               "action_type": "click",
               "requires_confirmation": false,
-              "risk_level": 4,
+              "risk_level": 5,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[aria-label*='reply']"
-                  }
+                  {"type": "css", "value": "[data-testid='reply']"},
+                  {"type": "css", "value": "button[aria-label*='Reply']"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "button[aria-label*='Comment']"
-                },
+                "primary": {"type": "css", "value": "[data-testid='reply'] button"},
                 "scope": "container"
               },
-              "semantic_intent": "comment"
+              "semantic_intent": "reply"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 2,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "[data-testid='bookmark']"},
+                  {"type": "css", "value": "button[aria-label*='Bookmark']"}
+                ],
+                "primary": {"type": "css", "value": "[data-testid='bookmark'] button"},
+                "scope": "container"
+              },
+              "semantic_intent": "bookmark"
             }
           ],
           "container_selector": {
             "fallbacks": [
-              {
-                "type": "css",
-                "value": "[role='article']"
-              },
-              {
-                "type": "css",
-                "value": "[role='listitem']"
-              },
-              {
-                "type": "css",
-                "value": "[data-urn]"
-              }
+              {"type": "css", "value": "article[role='article']"},
+              {"type": "css", "value": "[data-testid='cellInnerDiv'] article"},
+              {"type": "css", "value": "article"}
             ],
-            "primary": {
-              "type": "css",
-              "value": "[data-testid='post']"
-            },
+            "primary": {"type": "css", "value": "article[data-testid='tweet']"},
             "scope": "container"
           },
-          "content_type": "post",
+          "content_type": "tweet",
           "fields": [
             {
               "extraction": "text",
               "field_type": "text",
-              "name": "title",
-              "required": false,
+              "name": "content",
+              "required": true,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "h2"
-                  },
-                  {
-                    "type": "css",
-                    "value": "h3"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[href*='/status'] span"
-                  }
+                  {"type": "css", "value": "[lang] span"},
+                  {"type": "css", "value": "div[dir='auto'] span"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "[role='heading']"
-                },
+                "primary": {"type": "css", "value": "[data-testid='tweetText']"},
                 "scope": "container"
               }
             },
             {
-              "extraction": {
-                "attribute": "href"
-              },
+              "extraction": {"attribute": "href"},
               "field_type": "url",
               "name": "link",
-              "required": false,
+              "required": true,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "a[href*='/status']"
-                  },
-                  {
-                    "type": "css",
-                    "value": "a[href]:first-of-type"
-                  }
+                  {"type": "css", "value": "a[href*='/status/']"},
+                  {"type": "css", "value": "time[datetime]"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "h2 a, h3 a"
-                },
+                "primary": {"type": "css", "value": "a[href*='/status/'][dir='auto']"},
                 "scope": "container"
               }
             },
             {
               "extraction": "text",
               "field_type": "text",
-              "name": "subtitle",
+              "name": "author_name",
               "required": false,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "p"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[data-testid='description']"
-                  }
+                  {"type": "css", "value": "a[href^='/'][role='link'] span span"},
+                  {"type": "css", "value": "[data-testid='User-Name'] span span"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "[class*='description']"
-                },
+                "primary": {"type": "css", "value": "[data-testid='User-Name'] a span"},
                 "scope": "container"
               }
             },
             {
-              "extraction": {
-                "attribute": "src"
-              },
+              "extraction": "text",
+              "field_type": "text",
+              "name": "author_handle",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "a[href^='/'][tabindex='-1'] span"},
+                  {"type": "css", "value": "[data-testid='User-Name'] div[dir='ltr'] span"}
+                ],
+                "primary": {"type": "css", "value": "[data-testid='User-Name'] a[tabindex='-1'] span"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "src"},
               "field_type": "image",
-              "name": "image",
+              "name": "author_avatar",
               "required": false,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "picture img"
-                  },
-                  {
-                    "type": "css",
-                    "value": "img[width]"
-                  },
-                  {
-                    "type": "css",
-                    "value": "img"
-                  }
+                  {"type": "css", "value": "img[alt][draggable='true']"},
+                  {"type": "css", "value": "a[href^='/'] img"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "img:not([class*='avatar']):not([class*='Avatar'])"
-                },
+                "primary": {"type": "css", "value": "[data-testid='Tweet-User-Avatar'] img"},
                 "scope": "container"
               }
             },
             {
-              "extraction": {
-                "attribute": "datetime"
-              },
+              "extraction": {"attribute": "datetime"},
               "field_type": "timestamp",
               "name": "timestamp",
               "required": false,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "[data-time]"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[datetime]"
-                  },
-                  {
-                    "type": "css",
-                    "value": "time"
-                  }
+                  {"type": "css", "value": "[datetime]"},
+                  {"type": "css", "value": "a[href*='/status/'] time"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "time[datetime]"
-                },
+                "primary": {"type": "css", "value": "time[datetime]"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "src"},
+              "field_type": "image",
+              "name": "media_image",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "[data-testid='tweetPhoto'] img"},
+                  {"type": "css", "value": "div[aria-label*='Image'] img"}
+                ],
+                "primary": {"type": "css", "value": "img[alt='Image']"},
                 "scope": "container"
               }
             },
@@ -246,31 +195,81 @@
               "default": 0,
               "extraction": "text",
               "field_type": "number",
-              "name": "engagement_count",
+              "name": "reply_count",
               "required": false,
               "selector": {
                 "fallbacks": [
-                  {
-                    "type": "css",
-                    "value": "button[aria-label*='like'] span"
-                  },
-                  {
-                    "type": "css",
-                    "value": "[data-testid*='like'] span"
-                  }
+                  {"type": "css", "value": "[data-testid='reply'] span span"}
                 ],
-                "primary": {
-                  "type": "css",
-                  "value": "[aria-label*='reactions'] span"
-                },
+                "primary": {"type": "css", "value": "[data-testid='reply'] span[data-testid='app-text-transition-container']"},
                 "scope": "container"
               },
               "transform": "parse_compact_number"
+            },
+            {
+              "default": 0,
+              "extraction": "text",
+              "field_type": "number",
+              "name": "retweet_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "[data-testid='retweet'] span span"}
+                ],
+                "primary": {"type": "css", "value": "[data-testid='retweet'] span[data-testid='app-text-transition-container']"},
+                "scope": "container"
+              },
+              "transform": "parse_compact_number"
+            },
+            {
+              "default": 0,
+              "extraction": "text",
+              "field_type": "number",
+              "name": "like_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "[data-testid='like'] span span"}
+                ],
+                "primary": {"type": "css", "value": "[data-testid='like'] span[data-testid='app-text-transition-container']"},
+                "scope": "container"
+              },
+              "transform": "parse_compact_number"
+            },
+            {
+              "default": false,
+              "extraction": "exists",
+              "field_type": "boolean",
+              "name": "is_verified",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "[data-testid='icon-verified']"},
+                  {"type": "css", "value": "svg[aria-label*='Verified']"}
+                ],
+                "primary": {"type": "css", "value": "[data-testid='User-Name'] svg[aria-label*='Verified']"},
+                "scope": "container"
+              }
+            },
+            {
+              "default": false,
+              "extraction": "exists",
+              "field_type": "boolean",
+              "name": "has_media",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "[data-testid='tweetPhoto']"},
+                  {"type": "css", "value": "div[aria-label*='Image']"}
+                ],
+                "primary": {"type": "css", "value": "[data-testid='card.wrapper']"},
+                "scope": "container"
+              }
             }
           ],
           "is_list": true,
           "nested_content": [],
-          "required_fields": [],
+          "required_fields": ["content"],
           "semantic_role": "article"
         }
       ],
@@ -278,10 +277,7 @@
       "page_actions": [],
       "page_type_id": "search",
       "root_selector": null,
-      "url_patterns": [
-        "/search"
-      ]
+      "url_patterns": ["/search", "/search*"]
     }
-  },
-  "platform_id": "x_com"
+  }
 }

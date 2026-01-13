@@ -1,0 +1,285 @@
+{
+  "platform_id": "youtube_com",
+  "display_name": "YouTube",
+  "domains": [
+    "youtube.com",
+    "www.youtube.com",
+    "m.youtube.com"
+  ],
+  "metadata": {
+    "version": "1.1.0",
+    "name": "YouTube Schema",
+    "description": "Semantic extraction schema for YouTube",
+    "author": "SelaNet",
+    "created_at": 1768275000,
+    "updated_at": 1768292497,
+    "cid": "bafk_youtube_com_v1_1",
+    "tags": ["video", "streaming"],
+    "last_verified": "2026-01-13"
+  },
+  "page_types": {
+    "search": {
+      "page_type_id": "search",
+      "display_name": "Search Results",
+      "url_patterns": ["/results", "/results*"],
+      "root_selector": "ytd-search",
+      "content_schemas": [
+        {
+          "content_type": "video",
+          "semantic_role": "listitem",
+          "container_selector": {
+            "primary": {"type": "css", "value": "ytd-video-renderer"},
+            "fallbacks": [
+              {"type": "css", "value": "ytd-channel-renderer"},
+              {"type": "css", "value": "ytd-playlist-renderer"}
+            ],
+            "scope": "container"
+          },
+          "is_list": true,
+          "fields": [
+            {
+              "name": "title",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "a#video-title yt-formatted-string"},
+                "fallbacks": [
+                  {"type": "css", "value": "a#video-title"},
+                  {"type": "css", "value": "[id='video-title']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true
+            },
+            {
+              "name": "link",
+              "field_type": "url",
+              "selector": {
+                "primary": {"type": "css", "value": "a#video-title[href]"},
+                "fallbacks": [
+                  {"type": "css", "value": "a[href*='/watch']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "href"},
+              "required": true
+            },
+            {
+              "name": "thumbnail",
+              "field_type": "image",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-thumbnail img#img"},
+                "fallbacks": [
+                  {"type": "css", "value": "img[src*='i.ytimg.com']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "src"},
+              "required": false
+            },
+            {
+              "name": "channel_name",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-channel-name a"},
+                "fallbacks": [
+                  {"type": "css", "value": "a[href*='/@']"},
+                  {"type": "css", "value": "#channel-name a"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "channel_url",
+              "field_type": "url",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-channel-name a"},
+                "fallbacks": [
+                  {"type": "css", "value": "a[href*='/@']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "href"},
+              "required": false
+            },
+            {
+              "name": "channel_avatar",
+              "field_type": "image",
+              "selector": {
+                "primary": {"type": "css", "value": "#avatar-link img"},
+                "fallbacks": [
+                  {"type": "css", "value": "yt-img-shadow img"}
+                ],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "src"},
+              "required": false
+            },
+            {
+              "name": "view_count",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "#metadata-line span:first-child"},
+                "fallbacks": [
+                  {"type": "css", "value": "span[class*='inline-metadata-item']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "upload_time",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "#metadata-line span:nth-child(2)"},
+                "fallbacks": [
+                  {"type": "css", "value": "span[class*='inline-metadata-item']:last-child"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "duration",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-thumbnail-overlay-time-status-renderer #text"},
+                "fallbacks": [
+                  {"type": "css", "value": "span[class*='ytd-thumbnail-overlay-time-status-renderer']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "description_snippet",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "#description-text"},
+                "fallbacks": [
+                  {"type": "css", "value": "yt-formatted-string.metadata-snippet-text"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "is_verified",
+              "field_type": "boolean",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-badge-supported-renderer[badge-style='BADGE_STYLE_TYPE_VERIFIED']"},
+                "fallbacks": [
+                  {"type": "css", "value": "[aria-label='Verified']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "exists",
+              "required": false,
+              "default": false
+            }
+          ],
+          "actions": [
+            {
+              "action_type": "watch",
+              "display_name": "Watch Video",
+              "selector": {
+                "primary": {"type": "css", "value": "a#video-title"},
+                "fallbacks": [
+                  {"type": "css", "value": "ytd-thumbnail a"}
+                ],
+                "scope": "container"
+              },
+              "risk_level": "low",
+              "confirmation_required": false
+            },
+            {
+              "action_type": "save",
+              "display_name": "Save to Playlist",
+              "selector": {
+                "primary": {"type": "css", "value": "button[aria-label*='Save']"},
+                "fallbacks": [
+                  {"type": "css", "value": "ytd-menu-renderer button"}
+                ],
+                "scope": "container"
+              },
+              "risk_level": "low",
+              "confirmation_required": false
+            },
+            {
+              "action_type": "share",
+              "display_name": "Share",
+              "selector": {
+                "primary": {"type": "css", "value": "button[aria-label*='Share']"},
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "risk_level": "low",
+              "confirmation_required": false
+            }
+          ],
+          "nested_content": [],
+          "required_fields": ["title"]
+        },
+        {
+          "content_type": "short",
+          "semantic_role": "listitem",
+          "container_selector": {
+            "primary": {"type": "css", "value": "ytd-reel-item-renderer"},
+            "fallbacks": [
+              {"type": "css", "value": "ytm-shorts-lockup-view-model"}
+            ],
+            "scope": "container"
+          },
+          "is_list": true,
+          "fields": [
+            {
+              "name": "title",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "#video-title"},
+                "fallbacks": [
+                  {"type": "css", "value": "a[href*='/shorts/']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true
+            },
+            {
+              "name": "link",
+              "field_type": "url",
+              "selector": {
+                "primary": {"type": "css", "value": "a[href*='/shorts/']"},
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "href"},
+              "required": false
+            },
+            {
+              "name": "view_count",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "#metadata span"},
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            }
+          ],
+          "actions": [],
+          "nested_content": [],
+          "required_fields": ["title"]
+        }
+      ],
+      "page_actions": []
+    }
+  }
+}

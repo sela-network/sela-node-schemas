@@ -1,0 +1,102 @@
+{
+  "platform_id": "google_com",
+  "display_name": "Google",
+  "domains": [
+    "google.com",
+    "www.google.com",
+    "google.co.kr",
+    "www.google.co.kr"
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "name": "Google Schema",
+    "description": "Semantic extraction schema for Google Search",
+    "author": "SelaNet",
+    "created_at": 1768275000,
+    "updated_at": 1768275000,
+    "cid": "bafk_google_com_v1",
+    "tags": ["search", "web"]
+  },
+  "page_types": {
+    "search": {
+      "page_type_id": "search",
+      "display_name": "Search Results",
+      "url_patterns": ["/search", "/search*"],
+      "root_selector": "div#search",
+      "content_schemas": [
+        {
+          "content_type": "search_result",
+          "semantic_role": "listitem",
+          "container_selector": {
+            "primary": {"type": "css", "value": "div.g[data-hveid]"},
+            "fallbacks": [
+              {"type": "css", "value": "div[data-hveid]"},
+              {"type": "css", "value": "div[class*='g']"}
+            ],
+            "scope": "container"
+          },
+          "is_list": true,
+          "fields": [
+            {
+              "name": "title",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "h3"},
+                "fallbacks": [
+                  {"type": "css", "value": "a h3"},
+                  {"type": "css", "value": "[role='heading']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true
+            },
+            {
+              "name": "link",
+              "field_type": "url",
+              "selector": {
+                "primary": {"type": "css", "value": "a[jsname][data-ved]"},
+                "fallbacks": [
+                  {"type": "css", "value": "a[href^='http']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "href"},
+              "required": true
+            },
+            {
+              "name": "description",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "div[data-sncf] span"},
+                "fallbacks": [
+                  {"type": "css", "value": "div[class*='VwiC3b']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "displayed_url",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "cite"},
+                "fallbacks": [
+                  {"type": "css", "value": "span[class*='VuuXrf']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            }
+          ],
+          "actions": [],
+          "nested_content": [],
+          "required_fields": ["title"]
+        }
+      ],
+      "page_actions": []
+    }
+  }
+}

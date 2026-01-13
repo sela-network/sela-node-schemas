@@ -1,0 +1,323 @@
+{
+  "platform_id": "reddit_com",
+  "display_name": "Reddit",
+  "domains": [
+    "reddit.com",
+    "www.reddit.com",
+    "old.reddit.com"
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "name": "Reddit Schema",
+    "description": "Semantic extraction schema for Reddit",
+    "author": "SelaNet",
+    "created_at": 1768292207,
+    "updated_at": 1768292207,
+    "cid": "bafk_reddit_com_v1",
+    "tags": ["social", "forum", "discussion"],
+    "last_verified": "2026-01-13"
+  },
+  "page_types": {
+    "search": {
+      "page_type_id": "search",
+      "display_name": "Search Results",
+      "url_patterns": ["/search", "/search/*", "/search?*"],
+      "root_selector": "main",
+      "content_schemas": [
+        {
+          "content_type": "post",
+          "semantic_role": "article",
+          "container_selector": {
+            "primary": {"type": "css", "value": "article[data-testid='post-container']"},
+            "fallbacks": [
+              {"type": "css", "value": "div[data-testid='search-post']"},
+              {"type": "css", "value": "shreddit-post"},
+              {"type": "css", "value": "div[data-fullname^='t3_']"}
+            ],
+            "scope": "container"
+          },
+          "is_list": true,
+          "fields": [
+            {
+              "name": "title",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "a[slot='title']"},
+                "fallbacks": [
+                  {"type": "css", "value": "h3"},
+                  {"type": "css", "value": "a[data-testid='post-title']"},
+                  {"type": "css", "value": "[slot='title']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true
+            },
+            {
+              "name": "post_url",
+              "field_type": "url",
+              "selector": {
+                "primary": {"type": "css", "value": "a[slot='title']"},
+                "fallbacks": [
+                  {"type": "css", "value": "a[data-testid='post-title']"},
+                  {"type": "css", "value": "a[href*='/comments/']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "href"},
+              "required": false
+            },
+            {
+              "name": "subreddit",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "a[href^='/r/']"},
+                "fallbacks": [
+                  {"type": "css", "value": "a[data-testid='subreddit-link']"},
+                  {"type": "css", "value": "span[class*='subreddit']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "author",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "a[href^='/user/']"},
+                "fallbacks": [
+                  {"type": "css", "value": "a[data-testid='post-author']"},
+                  {"type": "css", "value": "span[class*='author']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "content_preview",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "div[slot='text-body']"},
+                "fallbacks": [
+                  {"type": "css", "value": "div[data-testid='post-content']"},
+                  {"type": "css", "value": "p"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "score",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "shreddit-post[score]"},
+                "fallbacks": [
+                  {"type": "css", "value": "div[data-testid='vote-count']"},
+                  {"type": "css", "value": "span[class*='score']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "score"},
+              "required": false
+            },
+            {
+              "name": "comment_count",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "a[data-testid='comments-button']"},
+                "fallbacks": [
+                  {"type": "css", "value": "span[class*='comment']"},
+                  {"type": "css", "value": "a[href*='/comments/'] span"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "timestamp",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "time"},
+                "fallbacks": [
+                  {"type": "css", "value": "span[data-testid='post-timestamp']"},
+                  {"type": "css", "value": "faceplate-timeago"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "thumbnail",
+              "field_type": "image",
+              "selector": {
+                "primary": {"type": "css", "value": "img[alt='Post image']"},
+                "fallbacks": [
+                  {"type": "css", "value": "img[data-testid='post-thumbnail']"},
+                  {"type": "css", "value": "div[slot='thumbnail'] img"}
+                ],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "src"},
+              "required": false
+            }
+          ],
+          "actions": [
+            {
+              "action_type": "upvote",
+              "display_name": "Upvote",
+              "selector": {
+                "primary": {"type": "css", "value": "button[aria-label='upvote']"},
+                "fallbacks": [
+                  {"type": "css", "value": "button[data-testid='upvote-button']"}
+                ],
+                "scope": "container"
+              },
+              "risk_level": "low",
+              "confirmation_required": false
+            },
+            {
+              "action_type": "downvote",
+              "display_name": "Downvote",
+              "selector": {
+                "primary": {"type": "css", "value": "button[aria-label='downvote']"},
+                "fallbacks": [
+                  {"type": "css", "value": "button[data-testid='downvote-button']"}
+                ],
+                "scope": "container"
+              },
+              "risk_level": "low",
+              "confirmation_required": false
+            },
+            {
+              "action_type": "comment",
+              "display_name": "Comment",
+              "selector": {
+                "primary": {"type": "css", "value": "a[data-testid='comments-button']"},
+                "fallbacks": [
+                  {"type": "css", "value": "a[href*='/comments/']"}
+                ],
+                "scope": "container"
+              },
+              "risk_level": "medium",
+              "confirmation_required": true
+            },
+            {
+              "action_type": "share",
+              "display_name": "Share",
+              "selector": {
+                "primary": {"type": "css", "value": "button[aria-label='share']"},
+                "fallbacks": [
+                  {"type": "css", "value": "button[data-testid='share-button']"}
+                ],
+                "scope": "container"
+              },
+              "risk_level": "low",
+              "confirmation_required": false
+            },
+            {
+              "action_type": "save",
+              "display_name": "Save",
+              "selector": {
+                "primary": {"type": "css", "value": "button[aria-label='save']"},
+                "fallbacks": [
+                  {"type": "css", "value": "button[data-testid='save-button']"}
+                ],
+                "scope": "container"
+              },
+              "risk_level": "low",
+              "confirmation_required": false
+            }
+          ],
+          "nested_content": [],
+          "required_fields": ["title"]
+        },
+        {
+          "content_type": "community",
+          "semantic_role": "listitem",
+          "container_selector": {
+            "primary": {"type": "css", "value": "div[data-testid='search-community']"},
+            "fallbacks": [
+              {"type": "css", "value": "a[href^='/r/'][data-testid]"},
+              {"type": "css", "value": "faceplate-tracker[source='community_search']"}
+            ],
+            "scope": "container"
+          },
+          "is_list": true,
+          "fields": [
+            {
+              "name": "name",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "a[href^='/r/']"},
+                "fallbacks": [
+                  {"type": "css", "value": "span[class*='community-name']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true
+            },
+            {
+              "name": "community_url",
+              "field_type": "url",
+              "selector": {
+                "primary": {"type": "css", "value": "a[href^='/r/']"},
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "href"},
+              "required": false
+            },
+            {
+              "name": "member_count",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "span[class*='members']"},
+                "fallbacks": [
+                  {"type": "css", "value": "faceplate-number"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "description",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "p"},
+                "fallbacks": [],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            }
+          ],
+          "actions": [
+            {
+              "action_type": "join",
+              "display_name": "Join",
+              "selector": {
+                "primary": {"type": "css", "value": "button[aria-label*='Join']"},
+                "fallbacks": [
+                  {"type": "css", "value": "button[data-testid='join-button']"}
+                ],
+                "scope": "container"
+              },
+              "risk_level": "low",
+              "confirmation_required": false
+            }
+          ],
+          "nested_content": [],
+          "required_fields": ["name"]
+        }
+      ],
+      "page_actions": []
+    }
+  }
+}
