@@ -62,6 +62,18 @@
         "www.medium.com",
         "m.medium.com"
       ],
+      "login_url": "https://medium.com/m/signin",
+      "login_verification": {
+        "cookie_names": [
+          "uid",
+          "sid"
+        ],
+        "host_patterns": [
+          "%medium.com"
+        ],
+        "min_cookie_count": 1,
+        "type": "cookie"
+      },
       "page_types": [
         "search"
       ],
