@@ -253,7 +253,7 @@
         "type": "cookie"
       },
       "page_types": [
-        "search",
+        "search_result",
         "profile"
       ],
       "platform_id": "xiaohongshu_com"

@@ -1,0 +1,652 @@
+{
+  "platform_id": "xiaohongshu_com",
+  "display_name": "Xiaohongshu (Little Red Book)",
+  "domains": [
+    "xiaohongshu.com",
+    "www.xiaohongshu.com",
+    "xhslink.com"
+  ],
+  "metadata": {
+    "author": "SelaNet",
+    "cid": "bafk_xiaohongshu_com_v1",
+    "created_at": 1737376174,
+    "description": "Semantic extraction schema for Xiaohongshu (Little Red Book) - Chinese lifestyle sharing platform",
+    "name": "xiaohongshu_com Schema",
+    "tags": ["social", "lifestyle", "chinese", "shopping"],
+    "updated_at": 1737378984,
+    "version": "1.1.0",
+    "last_verified": "2026-01-20"
+  },
+  "page_types": {
+    "search_result": {
+      "content_schemas": [
+        {
+          "actions": [
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 2,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".like-wrapper"},
+                  {"type": "css", "value": "span[class*='like']"}
+                ],
+                "primary": {"type": "css", "value": ".like-wrapper.like-active"},
+                "scope": "container"
+              },
+              "semantic_intent": "like"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 1,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "a.cover"},
+                  {"type": "css", "value": ".footer .title"}
+                ],
+                "primary": {"type": "css", "value": "a.cover.mask"},
+                "scope": "container"
+              },
+              "semantic_intent": "view"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 1,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "a[href*='/user/profile/']"}
+                ],
+                "primary": {"type": "css", "value": "a.author"},
+                "scope": "container"
+              },
+              "semantic_intent": "view_profile"
+            }
+          ],
+          "container_selector": {
+            "fallbacks": [
+              {"type": "css", "value": "section[class*='note-item']"},
+              {"type": "css", "value": "[data-index][class*='note']"}
+            ],
+            "primary": {"type": "css", "value": "section.note-item:not(:has(.query-note-wrapper))"},
+            "scope": "container"
+          },
+          "content_type": "note",
+          "fields": [
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "title",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".title span"},
+                  {"type": "css", "value": "a.title"}
+                ],
+                "primary": {"type": "css", "value": ".footer .title span"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "href"},
+              "field_type": "url",
+              "name": "link",
+              "required": true,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "a[href*='/search_result/']"},
+                  {"type": "css", "value": "a[href*='/explore/']"}
+                ],
+                "primary": {"type": "css", "value": "a.cover"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "src"},
+              "field_type": "image",
+              "name": "thumbnail",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "a.cover img[data-xhs-img]"},
+                  {"type": "css", "value": "img[src*='xhscdn.com']"}
+                ],
+                "primary": {"type": "css", "value": "a.cover img"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "author_name",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".card-bottom-wrapper .name"},
+                  {"type": "css", "value": "a.author .name"}
+                ],
+                "primary": {"type": "css", "value": ".author .name"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "href"},
+              "field_type": "url",
+              "name": "author_profile_url",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "a[href*='/user/profile/']"}
+                ],
+                "primary": {"type": "css", "value": "a.author"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "src"},
+              "field_type": "image",
+              "name": "author_avatar",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "a.author img"},
+                  {"type": "css", "value": "img[src*='avatar']"}
+                ],
+                "primary": {"type": "css", "value": ".author-avatar"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "like_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "span.count"},
+                  {"type": "css", "value": ".like-wrapper span"}
+                ],
+                "primary": {"type": "css", "value": ".like-wrapper .count"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "publish_time",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".name-time-wrapper .time"},
+                  {"type": "css", "value": "div.time"}
+                ],
+                "primary": {"type": "css", "value": ".author .time"},
+                "scope": "container"
+              }
+            },
+            {
+              "default": false,
+              "extraction": "exists",
+              "field_type": "boolean",
+              "name": "is_video",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "[class*='play-icon']"},
+                  {"type": "css", "value": "span.play-icon svg"}
+                ],
+                "primary": {"type": "css", "value": ".play-icon"},
+                "scope": "container"
+              }
+            }
+          ],
+          "is_list": true,
+          "nested_content": [],
+          "required_fields": ["link"],
+          "semantic_role": "note"
+        },
+        {
+          "actions": [
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 1,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".item-text"}
+                ],
+                "primary": {"type": "css", "value": ".item-wrapper"},
+                "scope": "container"
+              },
+              "semantic_intent": "search_query"
+            }
+          ],
+          "container_selector": {
+            "fallbacks": [
+              {"type": "css", "value": ".query-note-wrapper .query-note-item"}
+            ],
+            "primary": {"type": "css", "value": ".query-note-item"},
+            "scope": "document"
+          },
+          "content_type": "related_query",
+          "fields": [
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "query_text",
+              "required": true,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "span.item-text"}
+                ],
+                "primary": {"type": "css", "value": ".item-text"},
+                "scope": "container"
+              }
+            }
+          ],
+          "is_list": true,
+          "nested_content": [],
+          "required_fields": ["query_text"],
+          "semantic_role": "suggestion"
+        }
+      ],
+      "display_name": "Search Results",
+      "page_actions": [],
+      "page_type_id": "search_result",
+      "root_selector": null,
+      "url_patterns": ["/search_result?keyword=*", "/search_result?*keyword=*"]
+    },
+    "note_detail": {
+      "content_schemas": [
+        {
+          "actions": [
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 2,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".like-wrapper"},
+                  {"type": "css", "value": "[class*='like-wrapper']"}
+                ],
+                "primary": {"type": "css", "value": ".engage-bar .like-wrapper"},
+                "scope": "document"
+              },
+              "semantic_intent": "like"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 2,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "[class*='collect-wrapper']"}
+                ],
+                "primary": {"type": "css", "value": ".engage-bar .collect-wrapper"},
+                "scope": "document"
+              },
+              "semantic_intent": "collect"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 1,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "[class*='chat-wrapper']"}
+                ],
+                "primary": {"type": "css", "value": ".engage-bar .chat-wrapper"},
+                "scope": "document"
+              },
+              "semantic_intent": "comment"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 3,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "[class*='share-wrapper']"}
+                ],
+                "primary": {"type": "css", "value": ".engage-bar .share-wrapper"},
+                "scope": "document"
+              },
+              "semantic_intent": "share"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": true,
+              "risk_level": 3,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "button:contains('关注')"}
+                ],
+                "primary": {"type": "css", "value": ".author-wrapper button"},
+                "scope": "document"
+              },
+              "semantic_intent": "follow"
+            }
+          ],
+          "container_selector": {
+            "fallbacks": [
+              {"type": "css", "value": ".note-scroller"},
+              {"type": "css", "value": "[class*='note-container']"}
+            ],
+            "primary": {"type": "css", "value": ".note-container"},
+            "scope": "document"
+          },
+          "content_type": "note_detail",
+          "fields": [
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "title",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".title"},
+                  {"type": "css", "value": "#detail-title span"}
+                ],
+                "primary": {"type": "css", "value": "#detail-title"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "description",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".desc"},
+                  {"type": "css", "value": "#detail-desc span"}
+                ],
+                "primary": {"type": "css", "value": "#detail-desc"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "author_name",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".author-wrapper .name"},
+                  {"type": "css", "value": ".username"}
+                ],
+                "primary": {"type": "css", "value": ".author-wrapper .username"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "href"},
+              "field_type": "url",
+              "name": "author_profile_url",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".author-wrapper a"}
+                ],
+                "primary": {"type": "css", "value": ".author-wrapper a[href*='/user/profile/']"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "src"},
+              "field_type": "image",
+              "name": "author_avatar",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".author-wrapper img"},
+                  {"type": "css", "value": "img[src*='avatar']"}
+                ],
+                "primary": {"type": "css", "value": ".author-wrapper img.avatar-item"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "publish_date",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".publish-date"},
+                  {"type": "css", "value": "span.date"}
+                ],
+                "primary": {"type": "css", "value": ".date"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "like_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".like-wrapper span.count"}
+                ],
+                "primary": {"type": "css", "value": ".engage-bar .like-wrapper .count"},
+                "scope": "document"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "collect_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".collect-wrapper span.count"}
+                ],
+                "primary": {"type": "css", "value": ".engage-bar .collect-wrapper .count"},
+                "scope": "document"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "comment_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".chat-wrapper span.count"}
+                ],
+                "primary": {"type": "css", "value": ".engage-bar .chat-wrapper .count"},
+                "scope": "document"
+              }
+            },
+            {
+              "default": false,
+              "extraction": "exists",
+              "field_type": "boolean",
+              "name": "is_video",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".xgplayer"},
+                  {"type": "css", "value": "[class*='video-player']"}
+                ],
+                "primary": {"type": "css", "value": "video"},
+                "scope": "document"
+              }
+            }
+          ],
+          "is_list": false,
+          "nested_content": [
+            {
+              "content_type": "hashtag",
+              "container_selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "a[href*='keyword=']"}
+                ],
+                "primary": {"type": "css", "value": "#detail-desc a.tag"},
+                "scope": "container"
+              },
+              "fields": [
+                {
+                  "extraction": "text",
+                  "field_type": "text",
+                  "name": "tag_name",
+                  "required": true,
+                  "selector": {
+                    "fallbacks": [],
+                    "primary": {"type": "css", "value": "span"},
+                    "scope": "container"
+                  }
+                },
+                {
+                  "extraction": {"attribute": "href"},
+                  "field_type": "url",
+                  "name": "tag_link",
+                  "required": false,
+                  "selector": {
+                    "fallbacks": [],
+                    "primary": {"type": "css", "value": ":self"},
+                    "scope": "container"
+                  }
+                }
+              ],
+              "is_list": true
+            }
+          ],
+          "required_fields": [],
+          "semantic_role": "post"
+        },
+        {
+          "actions": [
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 2,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".like"}
+                ],
+                "primary": {"type": "css", "value": ".like-wrapper"},
+                "scope": "container"
+              },
+              "semantic_intent": "like_comment"
+            },
+            {
+              "action_type": "click",
+              "requires_confirmation": false,
+              "risk_level": 1,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".reply"}
+                ],
+                "primary": {"type": "css", "value": ".reply.icon-container"},
+                "scope": "container"
+              },
+              "semantic_intent": "reply"
+            }
+          ],
+          "container_selector": {
+            "fallbacks": [
+              {"type": "css", "value": ".comment-item"}
+            ],
+            "primary": {"type": "css", "value": ".parent-comment"},
+            "scope": "document"
+          },
+          "content_type": "comment",
+          "fields": [
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "author_name",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".author .name"},
+                  {"type": "css", "value": ".name"}
+                ],
+                "primary": {"type": "css", "value": ".author-wrapper .name"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "href"},
+              "field_type": "url",
+              "name": "author_profile_url",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".author a"}
+                ],
+                "primary": {"type": "css", "value": ".author-wrapper a[href*='/user/profile/']"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "src"},
+              "field_type": "image",
+              "name": "author_avatar",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "img[src*='avatar']"}
+                ],
+                "primary": {"type": "css", "value": ".avatar img"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "content",
+              "required": true,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".content"},
+                  {"type": "css", "value": ".comment-text"}
+                ],
+                "primary": {"type": "css", "value": ".note-text"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "date",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": "span.date"}
+                ],
+                "primary": {"type": "css", "value": ".date"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "like_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".like span"}
+                ],
+                "primary": {"type": "css", "value": ".like-wrapper .count"},
+                "scope": "container"
+              }
+            }
+          ],
+          "is_list": true,
+          "nested_content": [],
+          "required_fields": ["content"],
+          "semantic_role": "comment"
+        }
+      ],
+      "display_name": "Note Detail",
+      "page_actions": [],
+      "page_type_id": "note_detail",
+      "root_selector": null,
+      "url_patterns": ["/search_result/*", "/explore/*"]
+    }
+  }
+}

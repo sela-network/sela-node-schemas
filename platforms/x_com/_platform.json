@@ -16,9 +16,9 @@
     "description": "Semantic extraction schema for X (Twitter)",
     "name": "X Platform Schema",
     "tags": ["social", "microblog"],
-    "updated_at": 1768292373,
-    "version": "1.1.1",
-    "last_verified": "2026-01-13"
+    "updated_at": 1737376577,
+    "version": "1.2.0",
+    "last_verified": "2026-01-20"
   },
   "page_types": {
     "search": {
@@ -31,10 +31,9 @@
               "risk_level": 2,
               "selector": {
                 "fallbacks": [
-                  {"type": "css", "value": "[data-testid='like']"},
                   {"type": "css", "value": "button[aria-label*='Like']"}
                 ],
-                "primary": {"type": "css", "value": "[data-testid='like'] button"},
+                "primary": {"type": "css", "value": "button[data-testid='like']"},
                 "scope": "container"
               },
               "semantic_intent": "like"
@@ -45,10 +44,9 @@
               "risk_level": 4,
               "selector": {
                 "fallbacks": [
-                  {"type": "css", "value": "[data-testid='retweet']"},
                   {"type": "css", "value": "button[aria-label*='Repost']"}
                 ],
-                "primary": {"type": "css", "value": "[data-testid='retweet'] button"},
+                "primary": {"type": "css", "value": "button[data-testid='retweet']"},
                 "scope": "container"
               },
               "semantic_intent": "retweet"
@@ -59,10 +57,9 @@
               "risk_level": 5,
               "selector": {
                 "fallbacks": [
-                  {"type": "css", "value": "[data-testid='reply']"},
                   {"type": "css", "value": "button[aria-label*='Reply']"}
                 ],
-                "primary": {"type": "css", "value": "[data-testid='reply'] button"},
+                "primary": {"type": "css", "value": "button[data-testid='reply']"},
                 "scope": "container"
               },
               "semantic_intent": "reply"
@@ -73,10 +70,9 @@
               "risk_level": 2,
               "selector": {
                 "fallbacks": [
-                  {"type": "css", "value": "[data-testid='bookmark']"},
                   {"type": "css", "value": "button[aria-label*='Bookmark']"}
                 ],
-                "primary": {"type": "css", "value": "[data-testid='bookmark'] button"},
+                "primary": {"type": "css", "value": "button[data-testid='bookmark']"},
                 "scope": "container"
               },
               "semantic_intent": "bookmark"
@@ -114,10 +110,10 @@
               "required": true,
               "selector": {
                 "fallbacks": [
-                  {"type": "css", "value": "a[href*='/status/']"},
+                  {"type": "css", "value": "a[href*='/status/'][dir='auto']"},
                   {"type": "css", "value": "time[datetime]"}
                 ],
-                "primary": {"type": "css", "value": "a[href*='/status/'][dir='auto']"},
+                "primary": {"type": "css", "value": "a[href*='/status/']"},
                 "scope": "container"
               }
             },
@@ -259,10 +255,10 @@
               "required": false,
               "selector": {
                 "fallbacks": [
-                  {"type": "css", "value": "[data-testid='tweetPhoto']"},
+                  {"type": "css", "value": "[data-testid='card.wrapper']"},
                   {"type": "css", "value": "div[aria-label*='Image']"}
                 ],
-                "primary": {"type": "css", "value": "[data-testid='card.wrapper']"},
+                "primary": {"type": "css", "value": "[data-testid='tweetPhoto']"},
                 "scope": "container"
               }
             }
