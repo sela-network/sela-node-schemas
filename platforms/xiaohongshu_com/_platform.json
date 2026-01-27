@@ -81,12 +81,15 @@
         "strategy": "infinite_scroll",
         "item_selector": "section.note-item",
         "scroll_delay_ms": 800,
+        "scroll_amount": 500,
+        "order_attribute": "data-index",
         "expand": {
           "enabled": false
         },
         "load_more": {},
         "end_detection": {
-          "no_new_items_count": 3
+          "no_new_items_count": 10,
+          "selector": null
         }
       },
       "content_schemas": [
@@ -295,7 +298,8 @@
                 ],
                 "primary": {"type": "css", "value": ".author .time"},
                 "scope": "container"
-              }
+              },
+              "transform": "parse_relative_time"
             },
             {
               "default": false,
@@ -317,50 +321,6 @@
           "nested_content": [],
           "required_fields": ["link"],
           "semantic_role": "note"
-        },
-        {
-          "actions": [
-            {
-              "action_type": "click",
-              "requires_confirmation": false,
-              "risk_level": 1,
-              "selector": {
-                "fallbacks": [
-                  {"type": "css", "value": ".item-text"}
-                ],
-                "primary": {"type": "css", "value": ".item-wrapper"},
-                "scope": "container"
-              },
-              "semantic_intent": "search_query"
-            }
-          ],
-          "container_selector": {
-            "fallbacks": [
-              {"type": "css", "value": ".query-note-wrapper .query-note-item"}
-            ],
-            "primary": {"type": "css", "value": ".query-note-item"},
-            "scope": "document"
-          },
-          "content_type": "related_query",
-          "fields": [
-            {
-              "extraction": "text",
-              "field_type": "text",
-              "name": "query_text",
-              "required": true,
-              "selector": {
-                "fallbacks": [
-                  {"type": "css", "value": "span.item-text"}
-                ],
-                "primary": {"type": "css", "value": ".item-text"},
-                "scope": "container"
-              }
-            }
-          ],
-          "is_list": true,
-          "nested_content": [],
-          "required_fields": ["query_text"],
-          "semantic_role": "suggestion"
         }
       ],
       "display_name": "Search Results",
@@ -633,6 +593,19 @@
               }
             },
             {
+              "extraction": {"attribute_list": "src"},
+              "field_type": "image",
+              "name": "image_urls",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".swiper-slide img"}
+                ],
+                "primary": {"type": "css", "value": ".swiper-slide:not(.swiper-slide-duplicate) img"},
+                "scope": "document"
+              }
+            },
+            {
               "extraction": {"attribute": "content"},
               "field_type": "text",
               "name": "video_duration",
@@ -658,13 +631,144 @@
             }
           ],
           "is_list": false,
+          "nested_content": [],
+          "required_fields": [],
+          "semantic_role": "post"
+        },
+        {
+          "content_type": "comment",
+          "container_selector": {
+            "fallbacks": [],
+            "primary": {"type": "css", "value": ".parent-comment"},
+            "scope": "document"
+          },
+          "fields": [
+            {
+              "extraction": {"attribute": "id"},
+              "field_type": "text",
+              "name": "comment_id",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub)"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "author_name",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .author-wrapper .name"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "href"},
+              "field_type": "url",
+              "name": "author_profile_url",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .avatar a[href*='/user/profile/']"},
+                "scope": "container"
+              },
+              "transform": {"prepend_base_url": "https://www.xiaohongshu.com"}
+            },
+            {
+              "extraction": {"attribute": "data-user-id"},
+              "field_type": "text",
+              "name": "author_user_id",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .avatar a[data-user-id]"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": {"attribute": "src"},
+              "field_type": "image",
+              "name": "author_avatar",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .avatar img.avatar-item"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "content",
+              "required": true,
+              "selector": {
+                "fallbacks": [],
+                "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .content .note-text"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "date",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .info .date span:first-child"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "text",
+              "name": "location",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .info .date .location"},
+                "scope": "container"
+              }
+            },
+            {
+              "extraction": "text",
+              "field_type": "number",
+              "name": "like_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [],
+                "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .interactions .like-wrapper .count"},
+                "scope": "container"
+              },
+              "transform": "parse_compact_number"
+            },
+            {
+              "default": 0,
+              "extraction": "text",
+              "field_type": "number",
+              "name": "replys_count",
+              "required": false,
+              "selector": {
+                "fallbacks": [
+                  {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .interactions .reply.icon-container .count"},
+                  {"type": "css", "value": ".show-more"}
+                ],
+                "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .reply.icon-container .count"},
+                "scope": "container"
+              },
+              "transform": "parse_compact_number"
+            }
+          ],
+          "is_list": true,
           "nested_content": [
             {
-              "content_type": "comment",
+              "content_type": "reply",
               "container_selector": {
                 "fallbacks": [],
-                "primary": {"type": "css", "value": ".parent-comment"},
-                "scope": "document"
+                "primary": {"type": "css", "value": ".comment-item.comment-item-sub"},
+                "scope": "container"
               },
               "fields": [
                 {
@@ -674,7 +778,7 @@
                   "required": false,
                   "selector": {
                     "fallbacks": [],
-                    "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub)"},
+                    "primary": {"type": "self"},
                     "scope": "container"
                   }
                 },
@@ -684,8 +788,11 @@
                   "name": "author_name",
                   "required": false,
                   "selector": {
-                    "fallbacks": [],
-                    "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .author-wrapper .name"},
+                    "fallbacks": [
+                      {"type": "css", "value": ".author .name"},
+                      {"type": "css", "value": "a.name"}
+                    ],
+                    "primary": {"type": "css", "value": ".right .author-wrapper .name"},
                     "scope": "container"
                   }
                 },
@@ -695,8 +802,10 @@
                   "name": "author_profile_url",
                   "required": false,
                   "selector": {
-                    "fallbacks": [],
-                    "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .avatar a[href*='/user/profile/']"},
+                    "fallbacks": [
+                      {"type": "css", "value": "a[href*='/user/profile/']"}
+                    ],
+                    "primary": {"type": "css", "value": ".avatar a[href*='/user/profile/']"},
                     "scope": "container"
                   },
                   "transform": {"prepend_base_url": "https://www.xiaohongshu.com"}
@@ -707,8 +816,10 @@
                   "name": "author_user_id",
                   "required": false,
                   "selector": {
-                    "fallbacks": [],
-                    "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .avatar a[data-user-id]"},
+                    "fallbacks": [
+                      {"type": "css", "value": "[data-user-id]"}
+                    ],
+                    "primary": {"type": "css", "value": ".avatar a[data-user-id]"},
                     "scope": "container"
                   }
                 },
@@ -718,8 +829,10 @@
                   "name": "author_avatar",
                   "required": false,
                   "selector": {
-                    "fallbacks": [],
-                    "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .avatar img.avatar-item"},
+                    "fallbacks": [
+                      {"type": "css", "value": "img[src*='avatar']"}
+                    ],
+                    "primary": {"type": "css", "value": ".avatar img.avatar-item"},
                     "scope": "container"
                   }
                 },
@@ -729,8 +842,22 @@
                   "name": "content",
                   "required": true,
                   "selector": {
+                    "fallbacks": [
+                      {"type": "css", "value": ".note-text"},
+                      {"type": "css", "value": ".content"}
+                    ],
+                    "primary": {"type": "css", "value": ".right .content .note-text"},
+                    "scope": "container"
+                  }
+                },
+                {
+                  "extraction": "text",
+                  "field_type": "text",
+                  "name": "reply_to",
+                  "required": false,
+                  "selector": {
                     "fallbacks": [],
-                    "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .content .note-text"},
+                    "primary": {"type": "css", "value": ".right .content .note-text .at-user"},
                     "scope": "container"
                   }
                 },
@@ -740,19 +867,10 @@
                   "name": "date",
                   "required": false,
                   "selector": {
-                    "fallbacks": [],
-                    "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .info .date span:first-child"},
-                    "scope": "container"
-                  }
-                },
-                {
-                  "extraction": "text",
-                  "field_type": "text",
-                  "name": "location",
-                  "required": false,
-                  "selector": {
-                    "fallbacks": [],
-                    "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .info .date .location"},
+                    "fallbacks": [
+                      {"type": "css", "value": ".date"}
+                    ],
+                    "primary": {"type": "css", "value": ".right .info .date span:first-child"},
                     "scope": "container"
                   }
                 },
@@ -762,166 +880,22 @@
                   "name": "like_count",
                   "required": false,
                   "selector": {
-                    "fallbacks": [],
-                    "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .interactions .like-wrapper .count"},
-                    "scope": "container"
-                  },
-                  "transform": "parse_compact_number"
-                },
-                {
-                  "default": 0,
-                  "extraction": "text",
-                  "field_type": "number",
-                  "name": "replys_count",
-                  "required": false,
-                  "selector": {
                     "fallbacks": [
-                      {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .interactions .reply.icon-container .count"},
-                      {"type": "css", "value": ".show-more"}
+                      {"type": "css", "value": ".like-wrapper span"}
                     ],
-                    "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .reply.icon-container .count"},
+                    "primary": {"type": "css", "value": ".right .interactions .like-wrapper .count"},
                     "scope": "container"
                   },
                   "transform": "parse_compact_number"
                 }
               ],
               "is_list": true,
-              "nested_content": [
-                {
-                  "content_type": "reply",
-                  "container_selector": {
-                    "fallbacks": [],
-                    "primary": {"type": "css", "value": ".comment-item.comment-item-sub"},
-                    "scope": "container"
-                  },
-                  "fields": [
-                    {
-                      "extraction": {"attribute": "id"},
-                      "field_type": "text",
-                      "name": "comment_id",
-                      "required": false,
-                      "selector": {
-                        "fallbacks": [],
-                        "primary": {"type": "self"},
-                        "scope": "container"
-                      }
-                    },
-                    {
-                      "extraction": "text",
-                      "field_type": "text",
-                      "name": "author_name",
-                      "required": false,
-                      "selector": {
-                        "fallbacks": [
-                          {"type": "css", "value": ".author .name"},
-                          {"type": "css", "value": "a.name"}
-                        ],
-                        "primary": {"type": "css", "value": ".right .author-wrapper .name"},
-                        "scope": "container"
-                      }
-                    },
-                    {
-                      "extraction": {"attribute": "href"},
-                      "field_type": "url",
-                      "name": "author_profile_url",
-                      "required": false,
-                      "selector": {
-                        "fallbacks": [
-                          {"type": "css", "value": "a[href*='/user/profile/']"}
-                        ],
-                        "primary": {"type": "css", "value": ".avatar a[href*='/user/profile/']"},
-                        "scope": "container"
-                      },
-                      "transform": {"prepend_base_url": "https://www.xiaohongshu.com"}
-                    },
-                    {
-                      "extraction": {"attribute": "data-user-id"},
-                      "field_type": "text",
-                      "name": "author_user_id",
-                      "required": false,
-                      "selector": {
-                        "fallbacks": [
-                          {"type": "css", "value": "[data-user-id]"}
-                        ],
-                        "primary": {"type": "css", "value": ".avatar a[data-user-id]"},
-                        "scope": "container"
-                      }
-                    },
-                    {
-                      "extraction": {"attribute": "src"},
-                      "field_type": "image",
-                      "name": "author_avatar",
-                      "required": false,
-                      "selector": {
-                        "fallbacks": [
-                          {"type": "css", "value": "img[src*='avatar']"}
-                        ],
-                        "primary": {"type": "css", "value": ".avatar img.avatar-item"},
-                        "scope": "container"
-                      }
-                    },
-                    {
-                      "extraction": "text",
-                      "field_type": "text",
-                      "name": "content",
-                      "required": true,
-                      "selector": {
-                        "fallbacks": [
-                          {"type": "css", "value": ".note-text"},
-                          {"type": "css", "value": ".content"}
-                        ],
-                        "primary": {"type": "css", "value": ".right .content .note-text"},
-                        "scope": "container"
-                      }
-                    },
-                    {
-                      "extraction": "text",
-                      "field_type": "text",
-                      "name": "reply_to",
-                      "required": false,
-                      "selector": {
-                        "fallbacks": [],
-                        "primary": {"type": "css", "value": ".right .content .note-text .at-user"},
-                        "scope": "container"
-                      }
-                    },
-                    {
-                      "extraction": "text",
-                      "field_type": "text",
-                      "name": "date",
-                      "required": false,
-                      "selector": {
-                        "fallbacks": [
-                          {"type": "css", "value": ".date"}
-                        ],
-                        "primary": {"type": "css", "value": ".right .info .date span:first-child"},
-                        "scope": "container"
-                      }
-                    },
-                    {
-                      "extraction": "text",
-                      "field_type": "number",
-                      "name": "like_count",
-                      "required": false,
-                      "selector": {
-                        "fallbacks": [
-                          {"type": "css", "value": ".like-wrapper span"}
-                        ],
-                        "primary": {"type": "css", "value": ".right .interactions .like-wrapper .count"},
-                        "scope": "container"
-                      },
-                      "transform": "parse_compact_number"
-                    }
-                  ],
-                  "is_list": true,
-                  "semantic_role": "reply"
-                }
-              ],
-              "semantic_role": "comment"
+              "semantic_role": "reply"
             }
           ],
-          "required_fields": [],
-          "semantic_role": "post"
+          "actions": [],
+          "required_fields": ["content"],
+          "semantic_role": "comment"
         }
       ],
       "collection": {
@@ -929,9 +903,11 @@
         "item_selector": ".parent-comment",
         "scroll_container": ".note-scroller",
         "scroll_delay_ms": 1000,
+        "scroll_amount": 1500,
         "expand": {
           "enabled": true,
-          "selector": ".show-more"
+          "selector": ".show-more",
+          "max_clicks_per_container": 3
         },
         "load_more": {},
         "end_detection": {
@@ -1180,6 +1156,7 @@
         "strategy": "infinite_scroll",
         "item_selector": "section.note-item",
         "scroll_delay_ms": 800,
+        "order_attribute": "data-index",
         "expand": {"enabled": false},
         "load_more": {},
         "end_detection": {"no_new_items_count": 3}
