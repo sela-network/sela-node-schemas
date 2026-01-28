@@ -581,7 +581,7 @@
             {
               "extraction": {"attribute": "content"},
               "field_type": "url",
-              "name": "image_url",
+              "name": "cover_image",
               "required": false,
               "selector": {
                 "fallbacks": [
@@ -902,7 +902,7 @@
         "strategy": "infinite_scroll",
         "item_selector": ".parent-comment",
         "scroll_container": ".note-scroller",
-        "scroll_delay_ms": 1000,
+        "scroll_delay_ms": 1500,
         "scroll_amount": 1500,
         "expand": {
           "enabled": true,
