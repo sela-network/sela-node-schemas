@@ -719,7 +719,8 @@
                 "fallbacks": [],
                 "primary": {"type": "css", "value": ".comment-item:not(.comment-item-sub) .right .info .date span:first-child"},
                 "scope": "container"
-              }
+              },
+              "transform": "parse_relative_time"
             },
             {
               "extraction": "text",
@@ -748,7 +749,7 @@
               "default": 0,
               "extraction": "text",
               "field_type": "number",
-              "name": "replys_count",
+              "name": "replies_count",
               "required": false,
               "selector": {
                 "fallbacks": [
@@ -765,6 +766,7 @@
           "nested_content": [
             {
               "content_type": "reply",
+              "collection_key": "replies",
               "container_selector": {
                 "fallbacks": [],
                 "primary": {"type": "css", "value": ".comment-item.comment-item-sub"},
@@ -872,7 +874,8 @@
                     ],
                     "primary": {"type": "css", "value": ".right .info .date span:first-child"},
                     "scope": "container"
-                  }
+                  },
+                  "transform": "parse_relative_time"
                 },
                 {
                   "extraction": "text",
