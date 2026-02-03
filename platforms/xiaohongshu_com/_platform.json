@@ -213,7 +213,10 @@
                 "primary": {"type": "css", "value": "a.cover"},
                 "scope": "container"
               },
-              "transform": {"prepend_base_url": "https://www.xiaohongshu.com"}
+              "transform": [
+                {"replace": {"pattern": "/search_result/", "replacement": "/explore/"}},
+                {"prepend_base_url": "https://www.xiaohongshu.com"}
+              ]
             },
             {
               "extraction": {"attribute": "src"},
@@ -327,7 +330,7 @@
       "page_actions": [],
       "page_type_id": "search_result",
       "root_selector": null,
-      "url_patterns": ["/search_result?keyword=*", "/search_result/?keyword=*", "/search_result?*keyword=*", "/search_result/?*keyword=*"]
+      "url_patterns": ["/search_result"]
     },
     "note_detail": {
       "content_schemas": [
