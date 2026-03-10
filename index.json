@@ -238,7 +238,9 @@
       "display_name": "Xiaohongshu",
       "domains": [
         "xiaohongshu.com",
-        "www.xiaohongshu.com"
+        "www.xiaohongshu.com",
+        "rednote.com",
+        "www.rednote.com"
       ],
       "login_url": "https://www.xiaohongshu.com/login",
       "login_verification": {
@@ -247,7 +249,8 @@
           "web_session"
         ],
         "host_patterns": [
-          "%xiaohongshu.com"
+          "%xiaohongshu.com",
+          "%rednote.com"
         ],
         "min_cookie_count": 1,
         "type": "cookie"
@@ -272,6 +275,7 @@
     "*.facebook.com",
     "*.reddit.com",
     "*.tiktok.com",
-    "*.xiaohongshu.com"
+    "*.xiaohongshu.com",
+    "*.rednote.com"
   ]
 }
