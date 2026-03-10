@@ -249,7 +249,6 @@
           "web_session"
         ],
         "host_patterns": [
-          "%xiaohongshu.com",
           "%rednote.com"
         ],
         "min_cookie_count": 1,
