@@ -243,8 +243,8 @@
       "login_url": "https://www.xiaohongshu.com/login",
       "login_verification": {
         "cookie_names": [
-          "web_session",
-          "xsecappid"
+          "id_token",
+          "web_session"
         ],
         "host_patterns": [
           "%xiaohongshu.com"
