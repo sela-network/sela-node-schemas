@@ -238,7 +238,30 @@
       "display_name": "Xiaohongshu",
       "domains": [
         "xiaohongshu.com",
-        "www.xiaohongshu.com",
+        "www.xiaohongshu.com"
+      ],
+      "login_url": "https://www.xiaohongshu.com/explore",
+      "login_verification": {
+        "cookie_names": [
+          "id_token",
+          "web_session"
+        ],
+        "host_patterns": [
+          "%xiaohongshu.com"
+        ],
+        "min_cookie_count": 1,
+        "type": "cookie"
+      },
+      "page_types": [
+        "search_result",
+        "profile"
+      ],
+      "platform_id": "xiaohongshu_com"
+    },
+    {
+      "cid": "bafk_rednote_com_v1",
+      "display_name": "Rednote",
+      "domains": [
         "rednote.com",
         "www.rednote.com"
       ],
@@ -258,7 +281,7 @@
         "search_result",
         "profile"
       ],
-      "platform_id": "xiaohongshu_com"
+      "platform_id": "rednote_com"
     }
   ],
   "updated_at": "1768275300",
