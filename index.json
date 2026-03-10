@@ -242,7 +242,7 @@
         "rednote.com",
         "www.rednote.com"
       ],
-      "login_url": "https://www.xiaohongshu.com/login",
+      "login_url": "https://www.rednote.com/login",
       "login_verification": {
         "cookie_names": [
           "id_token",
