@@ -7,15 +7,15 @@
     "m.youtube.com"
   ],
   "metadata": {
-    "version": "1.1.0",
+    "version": "2.0.0",
     "name": "YouTube Schema",
-    "description": "Semantic extraction schema for YouTube",
+    "description": "Semantic extraction schema for YouTube — search, video watch, and comments",
     "author": "SelaNet",
     "created_at": 1768275000,
-    "updated_at": 1768292497,
-    "cid": "bafk_youtube_com_v1_1",
-    "tags": ["video", "streaming"],
-    "last_verified": "2026-01-13"
+    "updated_at": 1741782000,
+    "cid": "bafk_youtube_com_v2_0",
+    "tags": ["video", "streaming", "comments"],
+    "last_verified": "2026-03-12"
   },
   "page_types": {
     "search": {
@@ -57,7 +57,7 @@
               "selector": {
                 "primary": {"type": "css", "value": "a#video-title[href]"},
                 "fallbacks": [
-                  {"type": "css", "value": "a[href*='/watch']"}
+                  {"type": "css", "value": "a#thumbnail[href]"}
                 ],
                 "scope": "container"
               },
@@ -68,8 +68,9 @@
               "name": "thumbnail",
               "field_type": "image",
               "selector": {
-                "primary": {"type": "css", "value": "ytd-thumbnail img#img"},
+                "primary": {"type": "css", "value": "ytd-thumbnail yt-image img"},
                 "fallbacks": [
+                  {"type": "css", "value": "ytd-thumbnail img"},
                   {"type": "css", "value": "img[src*='i.ytimg.com']"}
                 ],
                 "scope": "container"
@@ -81,9 +82,9 @@
               "name": "channel_name",
               "field_type": "text",
               "selector": {
-                "primary": {"type": "css", "value": "ytd-channel-name a"},
+                "primary": {"type": "css", "value": "#channel-info ytd-channel-name a"},
                 "fallbacks": [
-                  {"type": "css", "value": "a[href*='/@']"},
+                  {"type": "css", "value": "ytd-channel-name a"},
                   {"type": "css", "value": "#channel-name a"}
                 ],
                 "scope": "container"
@@ -95,9 +96,9 @@
               "name": "channel_url",
               "field_type": "url",
               "selector": {
-                "primary": {"type": "css", "value": "ytd-channel-name a"},
+                "primary": {"type": "css", "value": "a#channel-thumbnail[href]"},
                 "fallbacks": [
-                  {"type": "css", "value": "a[href*='/@']"}
+                  {"type": "css", "value": "#channel-info ytd-channel-name a[href]"}
                 ],
                 "scope": "container"
               },
@@ -108,9 +109,9 @@
               "name": "channel_avatar",
               "field_type": "image",
               "selector": {
-                "primary": {"type": "css", "value": "#avatar-link img"},
+                "primary": {"type": "css", "value": "a#channel-thumbnail yt-img-shadow img#img"},
                 "fallbacks": [
-                  {"type": "css", "value": "yt-img-shadow img"}
+                  {"type": "css", "value": "a#channel-thumbnail img"}
                 ],
                 "scope": "container"
               },
@@ -121,9 +122,9 @@
               "name": "view_count",
               "field_type": "text",
               "selector": {
-                "primary": {"type": "css", "value": "#metadata-line span:first-child"},
+                "primary": {"type": "css", "value": "#metadata-line span.inline-metadata-item"},
                 "fallbacks": [
-                  {"type": "css", "value": "span[class*='inline-metadata-item']"}
+                  {"type": "css", "value": "#metadata-line span:first-of-type"}
                 ],
                 "scope": "container"
               },
@@ -134,9 +135,9 @@
               "name": "upload_time",
               "field_type": "text",
               "selector": {
-                "primary": {"type": "css", "value": "#metadata-line span:nth-child(2)"},
+                "primary": {"type": "css", "value": "#metadata-line span.inline-metadata-item + span.inline-metadata-item"},
                 "fallbacks": [
-                  {"type": "css", "value": "span[class*='inline-metadata-item']:last-child"}
+                  {"type": "css", "value": "#metadata-line span.inline-metadata-item:last-of-type"}
                 ],
                 "scope": "container"
               },
@@ -147,9 +148,10 @@
               "name": "duration",
               "field_type": "text",
               "selector": {
-                "primary": {"type": "css", "value": "ytd-thumbnail-overlay-time-status-renderer #text"},
+                "primary": {"type": "css", "value": "ytd-thumbnail-overlay-time-status-renderer .yt-badge-shape__text"},
                 "fallbacks": [
-                  {"type": "css", "value": "span[class*='ytd-thumbnail-overlay-time-status-renderer']"}
+                  {"type": "css", "value": "ytd-thumbnail-overlay-time-status-renderer #text"},
+                  {"type": "css", "value": "ytd-thumbnail-overlay-time-status-renderer badge-shape .yt-badge-shape__text"}
                 ],
                 "scope": "container"
               },
@@ -160,9 +162,10 @@
               "name": "description_snippet",
               "field_type": "text",
               "selector": {
-                "primary": {"type": "css", "value": "#description-text"},
+                "primary": {"type": "css", "value": "yt-formatted-string.metadata-snippet-text"},
                 "fallbacks": [
-                  {"type": "css", "value": "yt-formatted-string.metadata-snippet-text"}
+                  {"type": "css", "value": ".metadata-snippet-container yt-formatted-string"},
+                  {"type": "css", "value": "#description-text"}
                 ],
                 "scope": "container"
               },
@@ -173,9 +176,10 @@
               "name": "is_verified",
               "field_type": "boolean",
               "selector": {
-                "primary": {"type": "css", "value": "ytd-badge-supported-renderer[badge-style='BADGE_STYLE_TYPE_VERIFIED']"},
+                "primary": {"type": "css", "value": "#channel-info .badge-shape-style-type-verified-artist"},
                 "fallbacks": [
-                  {"type": "css", "value": "[aria-label='Verified']"}
+                  {"type": "css", "value": "#channel-info badge-shape[aria-label='Verified']"},
+                  {"type": "css", "value": "#channel-info badge-shape[aria-label]"}
                 ],
                 "scope": "container"
               },
@@ -277,6 +281,421 @@
           "actions": [],
           "nested_content": [],
           "required_fields": ["title"]
+        }
+      ],
+      "page_actions": [],
+      "collection": {
+        "strategy": "infinite_scroll",
+        "item_selector": "ytd-video-renderer",
+        "scroll_delay_ms": 1500,
+        "scroll_amount": 800,
+        "expand": { "enabled": false },
+        "load_more": {},
+        "end_detection": { "no_new_items_count": 5 }
+      }
+    },
+    "watch": {
+      "page_type_id": "watch",
+      "display_name": "Video Watch",
+      "url_patterns": ["/watch", "/watch*"],
+      "root_selector": "ytd-watch-flexy",
+      "content_schemas": [
+        {
+          "content_type": "video_info",
+          "semantic_role": "article",
+          "container_selector": {
+            "primary": {"type": "css", "value": "ytd-watch-metadata"},
+            "fallbacks": [
+              {"type": "css", "value": "#above-the-fold"},
+              {"type": "css", "value": "#meta"}
+            ],
+            "scope": "container"
+          },
+          "is_list": false,
+          "fields": [
+            {
+              "name": "title",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "h1 yt-formatted-string"},
+                "fallbacks": [
+                  {"type": "css", "value": "#title h1"},
+                  {"type": "css", "value": "h1.ytd-watch-metadata"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true
+            },
+            {
+              "name": "channel_name",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-video-owner-renderer ytd-channel-name #text a"},
+                "fallbacks": [
+                  {"type": "css", "value": "ytd-video-owner-renderer #channel-name a"},
+                  {"type": "css", "value": "#owner ytd-channel-name a"}
+                ],
+                "scope": "page"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "channel_url",
+              "field_type": "url",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-video-owner-renderer ytd-channel-name #text a"},
+                "fallbacks": [
+                  {"type": "css", "value": "ytd-video-owner-renderer a[href*='/@']"}
+                ],
+                "scope": "page"
+              },
+              "extraction": {"attribute": "href"},
+              "required": false
+            },
+            {
+              "name": "channel_avatar",
+              "field_type": "image",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-video-owner-renderer #avatar img#img"},
+                "fallbacks": [
+                  {"type": "css", "value": "ytd-video-owner-renderer yt-img-shadow img"}
+                ],
+                "scope": "page"
+              },
+              "extraction": {"attribute": "src"},
+              "required": false
+            },
+            {
+              "name": "subscriber_count",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-video-owner-renderer #owner-sub-count"},
+                "fallbacks": [
+                  {"type": "css", "value": "#owner #owner-sub-count"}
+                ],
+                "scope": "page"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "view_count",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-watch-info-text #info span:first-child"},
+                "fallbacks": [
+                  {"type": "css", "value": "ytd-video-view-count-renderer .view-count"},
+                  {"type": "css", "value": "#count .ytd-video-primary-info-renderer"}
+                ],
+                "scope": "page"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "upload_date",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-video-primary-info-renderer #info-strings yt-formatted-string"},
+                "fallbacks": [
+                  {"type": "css", "value": "ytd-watch-info-text #info span:nth-child(3)"}
+                ],
+                "scope": "page"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "like_count",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "like-button-view-model button .yt-spec-button-shape-next__button-text-content"},
+                "fallbacks": [
+                  {"type": "css", "value": "#segmented-like-button button[aria-label]"},
+                  {"type": "css", "value": "#top-level-buttons-computed ytd-toggle-button-renderer:first-child #text"}
+                ],
+                "scope": "page"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "description",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "#description-inline-expander #attributed-snippet-text span.yt-core-attributed-string"},
+                "fallbacks": [
+                  {"type": "css", "value": "#description-inline-expander #snippet-text"},
+                  {"type": "css", "value": "ytd-expandable-video-description-body-renderer #attributed-snippet-text"}
+                ],
+                "scope": "page"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "duration",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": ".ytp-time-duration"},
+                "fallbacks": [
+                  {"type": "css", "value": ".ytp-time-display .ytp-time-duration"}
+                ],
+                "scope": "page"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "hashtags",
+              "field_type": "list",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-watch-info-text #info a[href*='/hashtag/']"},
+                "fallbacks": [
+                  {"type": "css", "value": "ytd-video-primary-info-renderer .super-title a[href*='/hashtag/']"},
+                  {"type": "css", "value": "ytd-watch-metadata a[href*='/hashtag/']"}
+                ],
+                "scope": "page"
+              },
+              "extraction": "text_list",
+              "required": false
+            },
+            {
+              "name": "is_live",
+              "field_type": "boolean",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-watch-flexy[is-live]"},
+                "fallbacks": [
+                  {"type": "css", "value": "ytd-badge-supported-renderer badge-shape[aria-label*='LIVE']"}
+                ],
+                "scope": "page"
+              },
+              "extraction": "exists",
+              "required": false,
+              "default": false
+            }
+          ],
+          "actions": [
+            {
+              "action_type": "like",
+              "display_name": "Like",
+              "selector": {
+                "primary": {"type": "css", "value": "like-button-view-model button"},
+                "fallbacks": [
+                  {"type": "css", "value": "#segmented-like-button button"}
+                ],
+                "scope": "page"
+              },
+              "risk_level": "low",
+              "confirmation_required": false
+            },
+            {
+              "action_type": "subscribe",
+              "display_name": "Subscribe",
+              "selector": {
+                "primary": {"type": "css", "value": "#subscribe-button button"},
+                "fallbacks": [
+                  {"type": "css", "value": "ytd-subscribe-button-renderer button"}
+                ],
+                "scope": "page"
+              },
+              "risk_level": "medium",
+              "confirmation_required": true
+            },
+            {
+              "action_type": "share",
+              "display_name": "Share",
+              "selector": {
+                "primary": {"type": "css", "value": "button[aria-label*='Share']"},
+                "fallbacks": [],
+                "scope": "page"
+              },
+              "risk_level": "low",
+              "confirmation_required": false
+            }
+          ],
+          "nested_content": [],
+          "required_fields": ["title"]
+        }
+      ],
+      "page_actions": []
+    },
+    "comments": {
+      "page_type_id": "comments",
+      "display_name": "Video Comments",
+      "url_patterns": ["/watch", "/watch*"],
+      "root_selector": "ytd-comments#comments",
+      "collection": {
+        "strategy": "infinite_scroll",
+        "item_selector": "ytd-comment-thread-renderer",
+        "scroll_delay_ms": 1500,
+        "scroll_amount": 800,
+        "expand": {
+          "enabled": false
+        },
+        "load_more": {},
+        "end_detection": {
+          "no_new_items_count": 5
+        }
+      },
+      "content_schemas": [
+        {
+          "content_type": "comment",
+          "semantic_role": "comment",
+          "container_selector": {
+            "primary": {"type": "css", "value": "ytd-comment-thread-renderer"},
+            "fallbacks": [
+              {"type": "css", "value": "ytd-comment-view-model"},
+              {"type": "css", "value": "ytd-comment-renderer"}
+            ],
+            "scope": "container"
+          },
+          "is_list": true,
+          "fields": [
+            {
+              "name": "author",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "#author-text"},
+                "fallbacks": [
+                  {"type": "css", "value": "#header-author #author-text span"},
+                  {"type": "css", "value": "ytd-comment-view-model #author-text"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true
+            },
+            {
+              "name": "author_url",
+              "field_type": "url",
+              "selector": {
+                "primary": {"type": "css", "value": "#author-text[href]"},
+                "fallbacks": [
+                  {"type": "css", "value": "a[href*='/@']"}
+                ],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "href"},
+              "required": false
+            },
+            {
+              "name": "author_avatar",
+              "field_type": "image",
+              "selector": {
+                "primary": {"type": "css", "value": "#author-thumbnail-button yt-img-shadow img#img"},
+                "fallbacks": [
+                  {"type": "css", "value": "#author-thumbnail yt-img-shadow img"},
+                  {"type": "css", "value": "#author-thumbnail img"}
+                ],
+                "scope": "container"
+              },
+              "extraction": {"attribute": "src"},
+              "required": false
+            },
+            {
+              "name": "text",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "yt-attributed-string#content-text span.yt-core-attributed-string"},
+                "fallbacks": [
+                  {"type": "css", "value": "#content-text span.yt-core-attributed-string"},
+                  {"type": "css", "value": "#content-text"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": true
+            },
+            {
+              "name": "published_time",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "#published-time-text a"},
+                "fallbacks": [
+                  {"type": "css", "value": "span#published-time-text a"},
+                  {"type": "css", "value": "#published-time-text"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "like_count",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "#vote-count-middle:not([hidden])"},
+                "fallbacks": [
+                  {"type": "css", "value": "#vote-count-middle"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false,
+              "default": "0"
+            },
+            {
+              "name": "reply_count",
+              "field_type": "text",
+              "selector": {
+                "primary": {"type": "css", "value": "ytd-comment-replies-renderer #more-replies button span"},
+                "fallbacks": [
+                  {"type": "css", "value": "#more-replies span"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "text",
+              "required": false
+            },
+            {
+              "name": "is_pinned",
+              "field_type": "boolean",
+              "selector": {
+                "primary": {"type": "css", "value": "#pinned-comment-badge ytd-pinned-comment-badge-renderer"},
+                "fallbacks": [
+                  {"type": "css", "value": "#pinned-comment-badge yt-icon"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "exists",
+              "required": false,
+              "default": false
+            },
+            {
+              "name": "is_hearted",
+              "field_type": "boolean",
+              "selector": {
+                "primary": {"type": "css", "value": "#creator-heart ytd-creator-heart-renderer"},
+                "fallbacks": [
+                  {"type": "css", "value": "#creator-heart yt-icon"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "exists",
+              "required": false,
+              "default": false
+            },
+            {
+              "name": "is_creator",
+              "field_type": "boolean",
+              "selector": {
+                "primary": {"type": "css", "value": "#author-comment-badge ytd-author-comment-badge-renderer"},
+                "fallbacks": [
+                  {"type": "css", "value": "#author-comment-badge yt-icon"}
+                ],
+                "scope": "container"
+              },
+              "extraction": "exists",
+              "required": false,
+              "default": false
+            }
+          ],
+          "actions": [],
+          "nested_content": [],
+          "required_fields": ["text"]
         }
       ],
       "page_actions": []
