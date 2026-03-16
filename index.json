@@ -32,7 +32,7 @@
       "platform_id": "x_com"
     },
     {
-      "cid": "bafk_linkedin_com_v1",
+      "cid": "bafk_linkedin_com_v2_0",
       "display_name": "LinkedIn",
       "domains": [
         "linkedin.com",
@@ -52,8 +52,10 @@
       },
       "page_types": [
         "search",
-        "feed",
-        "profile"
+        "profile",
+        "company",
+        "jobs",
+        "post"
       ],
       "platform_id": "linkedin_com"
     },
